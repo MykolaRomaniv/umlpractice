@@ -1,26 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
 
-function App() {
+import { Switch, Route } from 'react-router-dom'
+
+import NavBar from './components/NavBar'
+
+import SignUp from './containers/Login/SignUp'
+
+import SignIn from './containers/Login/SignIn'
+
+const App = (): JSX.Element => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <NavBar />
+      <Switch>
+        <Route path="/" exact component={SignUp} />
+        <Route path="/sign-in" exact component={SignIn} />
+      </Switch>
+    </>
+  )
 }
 
-export default App;
+export default App
