@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Link from '@material-ui/core/Link'
+import testImg from 'assets/testImg.jpg'
 
 function Copyright() {
   return (
@@ -59,15 +60,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const cards: { name: string }[] = [
+const cards: { name: string; img: string }[] = [
   {
     name: 'Аналіз вимог',
-    // img:
+    img: testImg,
   },
-  { name: 'Проектування' },
-  { name: 'Моделювання' },
-  { name: 'Конструювання' },
-  { name: 'Тестування' },
+  {
+    name: 'Проектування',
+    img: testImg,
+  },
+  {
+    name: 'Моделювання',
+    img: testImg,
+  },
+  {
+    name: 'Конструювання',
+    img: testImg,
+  },
+  {
+    name: 'Тестування',
+    img: testImg,
+  },
 ]
 
 const Album = (): JSX.Element => {
@@ -135,8 +148,8 @@ const Album = (): JSX.Element => {
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
-                    image="https://source.unsplash.com/random"
-                    title="Image title"
+                    image={card.img}
+                    title={card.name}
                   />
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">

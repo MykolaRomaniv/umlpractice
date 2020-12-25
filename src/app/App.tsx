@@ -1,10 +1,10 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
-import routes from 'constants/routes'
-import NavBar from 'components/NavBar'
-import SignUp from 'containers/Login/SignUp'
-import SignIn from 'containers/Login/SignIn'
-import Album from 'containers/Album'
+import routes from 'app/constants/routes'
+import NavBar from 'app/components/NavBar'
+import SignUp from 'app/containers/Login/SignUp'
+import SignIn from 'app/containers/Login/SignIn'
+import Album from 'app/containers/Album'
 
 const App = (): JSX.Element => {
   return (

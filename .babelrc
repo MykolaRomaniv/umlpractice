@@ -5,10 +5,10 @@
       {
         "root": ["./src"],
         "alias": {
-          "boot": "./src/boot",
-          "components": "./src/components",
-          "containers": "./src/containers"
-        }
+          "components": "./src/app/components",
+          "containers": "./src/app/containers"
+        },
+        "extensions": [".js", ".jsx", ".ts", ".tsx", ".jpg"]
       }
     ]
   ]
