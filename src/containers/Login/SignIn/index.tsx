@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import { Link as RouterLink } from 'react-router-dom'
+import routes from 'constants/routes'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -67,7 +68,11 @@ const SignIn = (): JSX.Element => {
             id="password"
             autoComplete="current-password"
           />
-          <Link component={RouterLink} to="/test" variant="body2">
+          <Link
+            component={RouterLink}
+            to={`/${routes.exercises}`}
+            variant="body2"
+          >
             <Button
               type="submit"
               fullWidth
