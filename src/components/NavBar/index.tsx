@@ -49,7 +49,7 @@ const NavBar = (): JSX.Element => {
       </AppBar>
       <Drawer open={state.isDrawer} onClose={toggleDrawer(false)}>
         <List>
-          {['Вправи'].map((text) => (
+          {['Вправи', 'Створити вправу', 'Статистика'].map((text) => (
             <ListItem button key={text}>
               <ListItemIcon>
                 <InboxIcon />
