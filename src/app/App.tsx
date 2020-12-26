@@ -4,7 +4,7 @@ import routes from 'app/constants/routes'
 import NavBar from 'app/components/NavBar'
 import SignUp from 'app/containers/Login/SignUp'
 import SignIn from 'app/containers/Login/SignIn'
-import Album from 'app/containers/Album'
+import Album from 'app/containers/ExercisesCategories'
 
 const App = (): JSX.Element => {
   return (

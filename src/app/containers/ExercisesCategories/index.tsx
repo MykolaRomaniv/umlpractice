@@ -1,19 +1,20 @@
 import React from 'react'
-import AppBar from '@material-ui/core/AppBar'
 import Button from '@material-ui/core/Button'
-import CameraIcon from '@material-ui/icons/PhotoCamera'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Grid from '@material-ui/core/Grid'
-import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Link from '@material-ui/core/Link'
-import testImg from 'assets/testImg.jpg'
+import analytics from 'assets/analytics.jpg'
+import constructing from 'assets/constructing.jpg'
+import modeling from 'assets/modeling.jpg'
+import designing from 'assets/designing.jpg'
+import testing from 'assets/testing.jpg'
 
 function Copyright() {
   return (
@@ -50,6 +51,7 @@ const useStyles = makeStyles((theme) => ({
   },
   cardMedia: {
     paddingTop: '56.25%', // 16:9
+    marginTop: '10%',
   },
   cardContent: {
     flexGrow: 1,
@@ -58,28 +60,31 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(6),
   },
+  cardActions: {
+    marginBottom: '5%',
+  },
 }))
 
 const cards: { name: string; img: string }[] = [
   {
     name: 'Аналіз вимог',
-    img: testImg,
+    img: analytics,
   },
   {
     name: 'Проектування',
-    img: testImg,
+    img: designing,
   },
   {
     name: 'Моделювання',
-    img: testImg,
+    img: modeling,
   },
   {
     name: 'Конструювання',
-    img: testImg,
+    img: constructing,
   },
   {
     name: 'Тестування',
-    img: testImg,
+    img: testing,
   },
 ]
 
@@ -89,14 +94,6 @@ const Album = (): JSX.Element => {
   return (
     <>
       <CssBaseline />
-      <AppBar position="relative">
-        <Toolbar>
-          <CameraIcon className={classes.icon} />
-          <Typography variant="h6" color="inherit" noWrap>
-            {'Album layout\r'}
-          </Typography>
-        </Toolbar>
-      </AppBar>
       <main>
         {/* Hero unit */}
         <div className={classes.heroContent}>
@@ -108,7 +105,7 @@ const Album = (): JSX.Element => {
               color="textPrimary"
               gutterBottom
             >
-              {'Album layout\r'}
+              {'Категорії вправ\r'}
             </Typography>
             <Typography
               variant="h5"
@@ -117,23 +114,19 @@ const Album = (): JSX.Element => {
               paragraph
             >
               {
-                'Something short and leading about the collection below—its contents, the creator, etc.\r'
+                'ЖЦ ПЗ складається з 5-ти етапів. Виберіть етап та отримайте вправи створені вашим викладачем'
               }
-              {'Make it short and sweet, but not too short so folks don'}
-              &apos;
-              {'t simply skip over it\r'}
-              {'entirely.\r'}
             </Typography>
             <div className={classes.heroButtons}>
               <Grid container spacing={2} justify="center">
                 <Grid item>
                   <Button variant="contained" color="primary">
-                    {'Main call to action\r'}
+                    {'Список усіх вправ\r'}
                   </Button>
                 </Grid>
                 <Grid item>
                   <Button variant="outlined" color="primary">
-                    {'Secondary action\r'}
+                    {'Статистика\r'}
                   </Button>
                 </Grid>
               </Grid>
@@ -161,7 +154,7 @@ const Album = (): JSX.Element => {
                       }
                     </Typography>
                   </CardContent>
-                  <CardActions>
+                  <CardActions className={classes.cardActions}>
                     <Button variant="contained" color="primary">
                       {'Завдання'}
                     </Button>
