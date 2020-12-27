@@ -1,7 +1,8 @@
 /* eslint-disable no-shadow */
 enum routes {
   signIn = 'sign-in',
-  exercises = 'exercises',
+  exercisesList = 'exercises-list',
+  exercisesCategories = 'exercises-categories',
 }
 
 export default routes
