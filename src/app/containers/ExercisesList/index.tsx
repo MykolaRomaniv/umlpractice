@@ -1,18 +1,23 @@
 import React from 'react'
 import List from '@material-ui/core/List'
 import ListItem, { ListItemProps } from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
+// import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import Divider from '@material-ui/core/Divider'
-import InboxIcon from '@material-ui/icons/Inbox'
-import DraftsIcon from '@material-ui/icons/Drafts'
+// import InboxIcon from '@material-ui/icons/Inbox'
+// import DraftsIcon from '@material-ui/icons/Drafts'
 import Container from '@material-ui/core/Container'
 import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
+import { Link as RouterLink } from 'react-router-dom'
+import Link from '@material-ui/core/Link'
+
+import routes from 'app/constants/routes'
 import useStyles from './styles'
 
-const ListItemLink = (props: ListItemProps<'a', { button?: true }>) => {
+const ListItemLink = (props: ListItemProps<RouterLink, { button?: true }>) => {
   // eslint-disable-next-line react/jsx-props-no-spreading
-  return <ListItem button component="a" {...props} />
+  return <ListItem button component={RouterLink} {...props} />
 }
 
 const ExercisesList = (): JSX.Element => {
@@ -20,15 +25,22 @@ const ExercisesList = (): JSX.Element => {
 
   return (
     <div className={classes.root}>
+      <Typography variant="h4" component="h2" className={classes.headers}>
+        {'Вправи'}
+      </Typography>
       <List component="div">
-        <ListItem button>
-          <Container>
-            <ListItemIcon>
+        <ListItemLink
+          button
+          className={classes.listItem}
+          to={`${routes.exercise}`}
+        >
+          <Container className={classes.listItemTitle}>
+            {/* <ListItemIcon>
               <InboxIcon />
-            </ListItemIcon>
-            <ListItemText primary="Inbox" />
+            </ListItemIcon> */}
+            <ListItemText primary="Завдання 2" />
           </Container>
-          <Container>
+          <Container className={classes.listItemTags}>
             <Button
               variant="outlined"
               disableRipple
@@ -47,26 +59,26 @@ const ExercisesList = (): JSX.Element => {
             </Button>
           </Container>
           <Container className={classes.buttonContainer}>
-            <Button variant="contained" color="primary">
-              {'Виконати'}
-            </Button>
+            <Link
+              component={RouterLink}
+              to={`/${routes.exercise}`}
+              variant="body2"
+            >
+              <Button variant="contained" color="primary">
+                {'Виконати'}
+              </Button>
+            </Link>
           </Container>
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <DraftsIcon />
-          </ListItemIcon>
-          <ListItemText primary="Drafts" />
-        </ListItem>
+        </ListItemLink>
       </List>
-      <Divider />
+      <Divider className={classes.divider} />
+      <Typography variant="h4" component="h2" className={classes.headers}>
+        {'Зроблені\r'}
+      </Typography>
       <List component="nav" aria-label="secondary mailbox folders">
         <ListItem button>
-          <ListItemText primary="Trash" />
+          <ListItemText primary="Завдання 1" />
         </ListItem>
-        <ListItemLink href="#simple-list">
-          <ListItemText primary="Spam" />
-        </ListItemLink>
       </List>
     </div>
   )
