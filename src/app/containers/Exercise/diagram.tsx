@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable no-param-reassign */
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable no-plusplus */
