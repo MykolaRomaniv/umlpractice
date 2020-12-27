@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link as RouterLink } from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
@@ -7,14 +8,17 @@ import CardMedia from '@material-ui/core/CardMedia'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
-import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Link from '@material-ui/core/Link'
+
 import analytics from 'assets/analytics.jpg'
 import constructing from 'assets/constructing.jpg'
 import modeling from 'assets/modeling.jpg'
 import designing from 'assets/designing.jpg'
 import testing from 'assets/testing.jpg'
+
+import routes from 'app/constants/routes'
+import useStyles from './styles'
 
 function Copyright() {
   return (
@@ -28,42 +32,6 @@ function Copyright() {
     </Typography>
   )
 }
-
-const useStyles = makeStyles((theme) => ({
-  icon: {
-    marginRight: theme.spacing(2),
-  },
-  heroContent: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 6),
-  },
-  heroButtons: {
-    marginTop: theme.spacing(4),
-  },
-  cardGrid: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
-  },
-  card: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  cardMedia: {
-    paddingTop: '56.25%', // 16:9
-    marginTop: '10%',
-  },
-  cardContent: {
-    flexGrow: 1,
-  },
-  footer: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(6),
-  },
-  cardActions: {
-    marginBottom: '5%',
-  },
-}))
 
 const cards: { name: string; img: string }[] = [
   {
@@ -155,9 +123,15 @@ const Album = (): JSX.Element => {
                     </Typography>
                   </CardContent>
                   <CardActions className={classes.cardActions}>
-                    <Button variant="contained" color="primary">
-                      {'Завдання'}
-                    </Button>
+                    <Link
+                      component={RouterLink}
+                      to={`/${routes.exercisesList}`}
+                      variant="body2"
+                    >
+                      <Button variant="contained" color="primary">
+                        {'Завдання'}
+                      </Button>
+                    </Link>
                   </CardActions>
                 </Card>
               </Grid>
