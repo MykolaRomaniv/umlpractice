@@ -6,6 +6,8 @@
     "@babel/core": "^7.12.10",
     "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.11.2",
+    "@syncfusion/ej2-base": "^18.4.31",
+    "@syncfusion/ej2-react-diagrams": "^18.4.31",
     "@testing-library/dom": "^7.29.0",
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",

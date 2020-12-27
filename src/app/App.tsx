@@ -9,6 +9,8 @@ import ExercisesCategories from 'app/containers/ExercisesCategories'
 import ExercisesList from 'app/containers/ExercisesList'
 import Exercise from 'app/containers/Exercise'
 
+import '../../node_modules/@syncfusion/ej2-react-diagrams/styles/material.css'
+
 const App = (): JSX.Element => {
   return (
     <BrowserRouter>
