@@ -1,5 +1,6 @@
 import React from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, BrowserRouter } from 'react-router-dom'
+
 import routes from 'app/constants/routes'
 import NavBar from 'app/components/NavBar'
 import SignUp from 'app/containers/Login/SignUp'
@@ -9,7 +10,7 @@ import ExercisesList from 'app/containers/ExercisesList'
 
 const App = (): JSX.Element => {
   return (
-    <>
+    <BrowserRouter>
       <NavBar />
       <Switch>
         <Route path="/" exact component={SignUp} />
@@ -25,7 +26,7 @@ const App = (): JSX.Element => {
           component={ExercisesList}
         />
       </Switch>
-    </>
+    </BrowserRouter>
   )
 }
 
