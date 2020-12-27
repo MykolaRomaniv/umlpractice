@@ -7,6 +7,7 @@ import SignUp from 'app/containers/Login/SignUp'
 import SignIn from 'app/containers/Login/SignIn'
 import ExercisesCategories from 'app/containers/ExercisesCategories'
 import ExercisesList from 'app/containers/ExercisesList'
+import Exercise from 'app/containers/Exercise'
 
 const App = (): JSX.Element => {
   return (
@@ -25,6 +26,7 @@ const App = (): JSX.Element => {
           exact
           component={ExercisesList}
         />
+        <Route path={`/${routes.exercise}`} exact component={Exercise} />
       </Switch>
     </BrowserRouter>
   )

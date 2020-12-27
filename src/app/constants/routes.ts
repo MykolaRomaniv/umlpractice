@@ -3,6 +3,7 @@ enum routes {
   signIn = 'sign-in',
   exercisesList = 'exercises-list',
   exercisesCategories = 'exercises-categories',
+  exercise = 'exercise',
 }
 
 export default routes
