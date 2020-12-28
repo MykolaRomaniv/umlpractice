@@ -32,7 +32,7 @@ const ExercisesList = (): JSX.Element => {
         <ListItemLink
           button
           className={classes.listItem}
-          to={`${routes.exercise}`}
+          to={`${routes.classExercise}`}
         >
           <Container className={classes.listItemTitle}>
             {/* <ListItemIcon>
@@ -55,13 +55,95 @@ const ExercisesList = (): JSX.Element => {
               disableRipple
               component="div"
             >
-              {'Класів'}
+              {'Class'}
             </Button>
           </Container>
           <Container className={classes.buttonContainer}>
             <Link
               component={RouterLink}
-              to={`/${routes.exercise}`}
+              to={`/${routes.classExercise}`}
+              variant="body2"
+            >
+              <Button variant="contained" color="primary">
+                {'Виконати'}
+              </Button>
+            </Link>
+          </Container>
+        </ListItemLink>
+        <ListItemLink
+          button
+          className={classes.listItem}
+          to={`${routes.bpmnExercise}`}
+        >
+          <Container className={classes.listItemTitle}>
+            {/* <ListItemIcon>
+              <InboxIcon />
+            </ListItemIcon> */}
+            <ListItemText primary="Завдання 2" />
+          </Container>
+          <Container className={classes.listItemTags}>
+            <Button
+              variant="outlined"
+              disableRipple
+              component="div"
+              className={classes.tag}
+            >
+              {'До 15.01 12:00'}
+            </Button>
+            <Button
+              variant="outlined"
+              className={classes.tag}
+              disableRipple
+              component="div"
+            >
+              {'BPMN'}
+            </Button>
+          </Container>
+          <Container className={classes.buttonContainer}>
+            <Link
+              component={RouterLink}
+              to={`/${routes.bpmnExercise}`}
+              variant="body2"
+            >
+              <Button variant="contained" color="primary">
+                {'Виконати'}
+              </Button>
+            </Link>
+          </Container>
+        </ListItemLink>
+        <ListItemLink
+          button
+          className={classes.listItem}
+          to={`${routes.flowExercise}`}
+        >
+          <Container className={classes.listItemTitle}>
+            {/* <ListItemIcon>
+              <InboxIcon />
+            </ListItemIcon> */}
+            <ListItemText primary="Завдання 2" />
+          </Container>
+          <Container className={classes.listItemTags}>
+            <Button
+              variant="outlined"
+              disableRipple
+              component="div"
+              className={classes.tag}
+            >
+              {'До 15.01 12:00'}
+            </Button>
+            <Button
+              variant="outlined"
+              className={classes.tag}
+              disableRipple
+              component="div"
+            >
+              {'Flow'}
+            </Button>
+          </Container>
+          <Container className={classes.buttonContainer}>
+            <Link
+              component={RouterLink}
+              to={`/${routes.flowExercise}`}
               variant="body2"
             >
               <Button variant="contained" color="primary">
