@@ -3,7 +3,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-bitwise */
-import './bpmn.css'
+import './styles.css'
 import * as React from 'react'
 import {
   SymbolPaletteComponent,
@@ -17,7 +17,7 @@ import {
   NodeModel,
   ConnectorModel,
 } from '@syncfusion/ej2-react-diagrams'
-import SampleBase from './sample-base'
+import SampleBase from '../sample-base'
 
 let diagramInstance: DiagramComponent | null
 let diagram: DiagramComponent | null
