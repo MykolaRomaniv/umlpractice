@@ -5,13 +5,22 @@ import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import Drawer from '@material-ui/core/Drawer'
-import ListItem from '@material-ui/core/ListItem'
+import ListItem, { ListItemProps } from '@material-ui/core/ListItem'
 import List from '@material-ui/core/List'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import Divider from '@material-ui/core/Divider'
 import InboxIcon from '@material-ui/icons/MoveToInbox'
 import MailIcon from '@material-ui/icons/Mail'
+import { Link as RouterLink } from 'react-router-dom'
+
+import routes from 'app/constants/routes'
+
+// TODO create own component for ListItemLink
+const ListItemLink = (props: ListItemProps<RouterLink, { button?: true }>) => {
+  // eslint-disable-next-line react/jsx-props-no-spreading
+  return <ListItem button component={RouterLink} {...props} />
+}
 
 const NavBar = (): JSX.Element => {
   const [state, setState] = React.useState({
@@ -50,12 +59,17 @@ const NavBar = (): JSX.Element => {
       <Drawer open={state.isDrawer} onClose={toggleDrawer(false)}>
         <List>
           {['Вправи', 'Створити вправу', 'Статистика'].map((text) => (
-            <ListItem button key={text}>
+            <ListItemLink
+              key={text}
+              to={`/${routes.exercisesCategories}`}
+              button
+              onClick={toggleDrawer(false)}
+            >
               <ListItemIcon>
                 <InboxIcon />
               </ListItemIcon>
               <ListItemText primary={text} />
-            </ListItem>
+            </ListItemLink>
           ))}
         </List>
         <Divider />
