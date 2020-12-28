@@ -16,7 +16,7 @@ import {
   // AssociationFlow,
 } from '@syncfusion/ej2-react-diagrams'
 
-import SampleBase from './sample-base'
+import SampleBase from '../sample-base'
 
 let diagramInstance: DiagramComponent | null
 
