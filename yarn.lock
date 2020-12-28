@@ -1688,7 +1688,7 @@
   resolved "https://registry.yarnpkg.com/@syncfusion/ej2-icons/-/ej2-icons-18.4.30.tgz#658f517a8163f0614453f9d420d0af03601ab9ee"
   integrity sha512-kUSNE0xglgwXdIsfXFpa4so9hLRUkvxEsSbZIZhhrJrc7Z8Y3Y7O8HUM9+rIJzY6cLG8KWy+A8tBO9qVADujfQ==
 
-"@syncfusion/ej2-inputs@~18.4.31":
+"@syncfusion/ej2-inputs@18.4.31", "@syncfusion/ej2-inputs@~18.4.31":
   version "18.4.31"
   resolved "https://registry.yarnpkg.com/@syncfusion/ej2-inputs/-/ej2-inputs-18.4.31.tgz#cc536c781979a9a73c82be52f1e49fd553b5c224"
   integrity sha512-I61oUtvrFb572yTrN3cdf99MU3i4Z1eOXqfBJrsyKc9kMGKYGXmqECJK6Zvu0+Z2gvHq8og0EbgO8WzGlNccug==
@@ -1707,7 +1707,7 @@
     "@syncfusion/ej2-buttons" "~18.4.30"
     "@syncfusion/ej2-data" "~18.4.30"
 
-"@syncfusion/ej2-navigations@~18.4.31":
+"@syncfusion/ej2-navigations@18.4.31", "@syncfusion/ej2-navigations@~18.4.31":
   version "18.4.31"
   resolved "https://registry.yarnpkg.com/@syncfusion/ej2-navigations/-/ej2-navigations-18.4.31.tgz#984c8d1e6bddbbfcf0145dc83bb8533ed402fe5c"
   integrity sha512-jq1BsnsH8wX7KkPeSscU+mdA/1KmRZho8Ks8lny+K15pvIOuRsehtqLGBXi8Fav46MIXIFz9TZ7Vrhpo/PyzDA==
@@ -1741,6 +1741,24 @@
   dependencies:
     "@syncfusion/ej2-base" "~18.4.31"
     "@syncfusion/ej2-diagrams" "18.4.31"
+    "@syncfusion/ej2-react-base" "~18.4.31"
+
+"@syncfusion/ej2-react-inputs@^18.4.31":
+  version "18.4.31"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-react-inputs/-/ej2-react-inputs-18.4.31.tgz#e9a1271f48f1af32aa67e140bb82c63a63c0c8e7"
+  integrity sha512-KzcE+DwARTzEkp7OfJLGMEed2Yb7UV2GqfeWDsNHieUYRXpwYwPICEKOCPh2KyW63gSwyvR/rwJro8H6KDkQIQ==
+  dependencies:
+    "@syncfusion/ej2-base" "~18.4.31"
+    "@syncfusion/ej2-inputs" "18.4.31"
+    "@syncfusion/ej2-react-base" "~18.4.31"
+
+"@syncfusion/ej2-react-navigations@^18.4.31":
+  version "18.4.31"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-react-navigations/-/ej2-react-navigations-18.4.31.tgz#e928af0ab6cfeccdc447c6b46de7841a77ba5ee7"
+  integrity sha512-16oEmQc5L7sUQDEcuvHGdIAt6rkmFiluudWnYx5SvhK7GT4AeiMhuIbF3M+3MbILkCRMjYTS1PxAy4XNtUAUuA==
+  dependencies:
+    "@syncfusion/ej2-base" "~18.4.31"
+    "@syncfusion/ej2-navigations" "18.4.31"
     "@syncfusion/ej2-react-base" "~18.4.31"
 
 "@syncfusion/ej2-splitbuttons@~18.4.31":
