@@ -1,18 +1,14 @@
 import React from 'react'
+import { Link as RouterLink } from 'react-router-dom'
 import List from '@material-ui/core/List'
-import ListItem, { ListItemProps } from '@material-ui/core/ListItem'
 import Container from '@material-ui/core/Container'
 import Button from '@material-ui/core/Button'
-import { Link as RouterLink } from 'react-router-dom'
 import Link from '@material-ui/core/Link'
-import routes from 'app/constants/routes'
 import ListItemText from '@material-ui/core/ListItemText'
-import useStyles from './styles'
 
-const ListItemLink = (props: ListItemProps<RouterLink, { button?: true }>) => {
-  // eslint-disable-next-line react/jsx-props-no-spreading
-  return <ListItem button component={RouterLink} {...props} />
-}
+import ListItemLink from 'app/components/ListItemLink'
+import routes from 'app/constants/routes'
+import useStyles from './styles'
 
 const Exercise = (): JSX.Element => {
   const classes = useStyles()

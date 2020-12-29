@@ -1,12 +1,11 @@
 import React from 'react'
-import { Link as RouterLink } from 'react-router-dom'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import Drawer from '@material-ui/core/Drawer'
-import ListItem, { ListItemProps } from '@material-ui/core/ListItem'
+import ListItem from '@material-ui/core/ListItem'
 import List from '@material-ui/core/List'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
@@ -18,12 +17,7 @@ import AssessmentIcon from '@material-ui/icons/Assessment'
 import SvgIcon from '@material-ui/core/SvgIcon'
 
 import routes from 'app/constants/routes'
-
-// TODO create own component for ListItemLink
-const ListItemLink = (props: ListItemProps<RouterLink, { button?: true }>) => {
-  // eslint-disable-next-line react/jsx-props-no-spreading
-  return <ListItem button component={RouterLink} {...props} />
-}
+import ListItemLink from 'app/components/ListItemLink'
 
 interface INavItem {
   text: string

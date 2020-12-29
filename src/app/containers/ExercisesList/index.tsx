@@ -1,24 +1,17 @@
 import React from 'react'
 import List from '@material-ui/core/List'
-import ListItem, { ListItemProps } from '@material-ui/core/ListItem'
-// import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import Divider from '@material-ui/core/Divider'
-// import InboxIcon from '@material-ui/icons/Inbox'
-// import DraftsIcon from '@material-ui/icons/Drafts'
 import Container from '@material-ui/core/Container'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import { Link as RouterLink } from 'react-router-dom'
 import Link from '@material-ui/core/Link'
 
+import ListItemLink from 'app/components/ListItemLink'
 import routes from 'app/constants/routes'
 import useStyles from './styles'
-
-const ListItemLink = (props: ListItemProps<RouterLink, { button?: true }>) => {
-  // eslint-disable-next-line react/jsx-props-no-spreading
-  return <ListItem button component={RouterLink} {...props} />
-}
 
 const ExercisesList = (): JSX.Element => {
   const classes = useStyles()
