@@ -20,18 +20,16 @@ import testing from 'assets/testing.png'
 import routes from 'app/constants/routes'
 import useStyles from './styles'
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        {'Your Website\r'}
-      </Link>
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  )
-}
+// const Copyright = () => {
+//   return (
+//     <Typography variant="body2" color="textSecondary" align="center">
+//       {'Copyright © '}
+//       {'Зайчики\r'}
+//       {new Date().getFullYear()}
+//       {'.'}
+//     </Typography>
+//   )
+// }
 
 const cards: { name: string; img: string }[] = [
   {
@@ -140,7 +138,8 @@ const Album = (): JSX.Element => {
         </Container>
       </main>
       {/* Footer */}
-      <footer className={classes.footer}>
+      {/* TODO create cool footer */}
+      {/* <footer className={classes.footer}>
         <Typography variant="h6" align="center" gutterBottom>
           {'Footer\r'}
         </Typography>
@@ -153,7 +152,7 @@ const Album = (): JSX.Element => {
           {'Something here to give the footer a purpose!\r'}
         </Typography>
         <Copyright />
-      </footer>
+      </footer> */}
       {/* End footer */}
     </>
   )
