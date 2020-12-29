@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable no-return-assign */
 /* eslint-disable no-param-reassign */
@@ -1140,11 +1142,11 @@ const contextMenu = {
 
 export default class BpmnEditor extends SampleBase {
   // eslint-disable-next-line class-methods-use-this
-  rendereComplete() {
+  rendereComplete(): void {
     diagramInstance?.fitToPage()
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <div className="control-pane">
         <div className="control-section">
