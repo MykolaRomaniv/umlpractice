@@ -33,6 +33,8 @@ const useStyles = makeStyles((theme) => ({
   },
   cardActions: {
     marginBottom: '5%',
+    // ? change to move buttons to right
+    // justifyContent: 'flex-end',
   },
 }))
 

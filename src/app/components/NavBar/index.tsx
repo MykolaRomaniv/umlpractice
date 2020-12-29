@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link as RouterLink } from 'react-router-dom'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
@@ -12,7 +13,9 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Divider from '@material-ui/core/Divider'
 import InboxIcon from '@material-ui/icons/MoveToInbox'
 import MailIcon from '@material-ui/icons/Mail'
-import { Link as RouterLink } from 'react-router-dom'
+import AddToPhotosIcon from '@material-ui/icons/AddToPhotos'
+import AssessmentIcon from '@material-ui/icons/Assessment'
+import SvgIcon from '@material-ui/core/SvgIcon'
 
 import routes from 'app/constants/routes'
 
@@ -21,6 +24,17 @@ const ListItemLink = (props: ListItemProps<RouterLink, { button?: true }>) => {
   // eslint-disable-next-line react/jsx-props-no-spreading
   return <ListItem button component={RouterLink} {...props} />
 }
+
+interface INavItem {
+  text: string
+  icon: typeof SvgIcon | JSX.Element
+}
+
+const navItems: INavItem[] = [
+  { text: 'Вправи', icon: <InboxIcon /> },
+  { text: 'Створити вправу', icon: <AddToPhotosIcon /> },
+  { text: 'Статистика', icon: <AssessmentIcon /> },
+]
 
 const NavBar = (): JSX.Element => {
   const [state, setState] = React.useState({
@@ -58,17 +72,15 @@ const NavBar = (): JSX.Element => {
       </AppBar>
       <Drawer open={state.isDrawer} onClose={toggleDrawer(false)}>
         <List>
-          {['Вправи', 'Створити вправу', 'Статистика'].map((text) => (
+          {navItems.map((item) => (
             <ListItemLink
-              key={text}
+              key={item.text}
               to={`/${routes.exercisesCategories}`}
               button
               onClick={toggleDrawer(false)}
             >
-              <ListItemIcon>
-                <InboxIcon />
-              </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemText primary={item.text} />
             </ListItemLink>
           ))}
         </List>
