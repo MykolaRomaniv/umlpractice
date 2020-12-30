@@ -31,26 +31,42 @@ import useStyles from './styles'
 //   )
 // }
 
-const cards: { name: string; img: string }[] = [
+interface ICardItem {
+  name: string
+  img: string
+  description: string
+}
+
+const cards: ICardItem[] = [
   {
     name: 'Аналіз вимог',
     img: analytics,
+    description:
+      'Процес вивчення потреб і цілей користувачів, класифікація і перетворення їх на вимоги до системи.\r',
   },
   {
     name: 'Проектування',
     img: designing,
+    description:
+      'Процес визначення архітектури, набору компонентів, їх інтерфейсів, інших характеристик системи і кінцевого складу програмного продукту',
   },
   {
     name: 'Моделювання',
     img: modeling,
+    description:
+      'Процес вирішення задач та планування для створення програмного рішення',
   },
   {
     name: 'Конструювання',
     img: constructing,
+    description:
+      'Створення працюючого ПО з залученням методів верифікації, кодування і тестування компонентів',
   },
   {
     name: 'Тестування',
     img: testing,
+    description:
+      'Процес перевірки готової програми в статиці (перегляди, інспекції, налагодження вихідного коду) і в динаміці (прогін на наборі тестових даних)',
   },
 ]
 
@@ -114,11 +130,7 @@ const Album = (): JSX.Element => {
                     <Typography gutterBottom variant="h5" component="h2">
                       {card.name}
                     </Typography>
-                    <Typography>
-                      {
-                        'This is a media card. You can use this section to describe the content.\r'
-                      }
-                    </Typography>
+                    <Typography>{card.description}</Typography>
                   </CardContent>
                   <CardActions className={classes.cardActions}>
                     <Link
