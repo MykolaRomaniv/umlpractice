@@ -18,6 +18,7 @@ import designing from 'assets/designing.png'
 import testing from 'assets/testing.png'
 
 import routes from 'app/constants/routes'
+import exerciseCategories from 'app/constants/exerciseCategories'
 import useStyles from './styles'
 
 // const Copyright = () => {
@@ -35,36 +36,42 @@ interface ICardItem {
   name: string
   img: string
   description: string
+  linkParam: string
 }
 
 const cards: ICardItem[] = [
   {
     name: 'Аналіз вимог',
     img: analytics,
+    linkParam: exerciseCategories.analytics,
     description:
       'Процес вивчення потреб і цілей користувачів, класифікація і перетворення їх на вимоги до системи.\r',
   },
   {
     name: 'Проектування',
     img: designing,
+    linkParam: exerciseCategories.designing,
     description:
       'Процес визначення архітектури, набору компонентів, їх інтерфейсів, інших характеристик системи і кінцевого складу програмного продукту',
   },
   {
     name: 'Моделювання',
     img: modeling,
+    linkParam: exerciseCategories.modeling,
     description:
       'Процес вирішення задач та планування для створення програмного рішення',
   },
   {
     name: 'Конструювання',
     img: constructing,
+    linkParam: exerciseCategories.constructing,
     description:
       'Створення працюючого ПО з залученням методів верифікації, кодування і тестування компонентів',
   },
   {
     name: 'Тестування',
     img: testing,
+    linkParam: exerciseCategories.testing,
     description:
       'Процес перевірки готової програми в статиці (перегляди, інспекції, налагодження вихідного коду) і в динаміці (прогін на наборі тестових даних)',
   },
@@ -135,7 +142,7 @@ const Album = (): JSX.Element => {
                   <CardActions className={classes.cardActions}>
                     <Link
                       component={RouterLink}
-                      to={`/${routes.exercisesList}`}
+                      to={`/${routes.exercisesList}?type=${card.linkParam}`}
                       variant="body2"
                     >
                       <Button variant="contained" color="primary">
