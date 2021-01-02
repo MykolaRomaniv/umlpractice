@@ -6,7 +6,10 @@
         "root": ["./src"],
         "alias": {
           "components": "./src/app/components",
-          "containers": "./src/app/containers"
+          "containers": "./src/app/containers",
+          "constants": "./src/app/constants",
+          "hooks": "./src/app/hooks",
+          "types": "./src/app/types"
         },
         "extensions": [".js", ".jsx", ".ts", ".tsx", ".jpg"]
       }
