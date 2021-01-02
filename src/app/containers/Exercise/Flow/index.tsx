@@ -13,9 +13,6 @@ import {
   Node,
   NodeModel,
   UmlClassifierShapeModel,
-  NodeConstraints,
-  ConnectorModel,
-  // ConnectorModel,
 } from '@syncfusion/ej2-react-diagrams'
 import { ToolbarComponent } from '@syncfusion/ej2-react-navigations'
 import { UploaderComponent } from '@syncfusion/ej2-react-inputs'
@@ -317,220 +314,8 @@ const flowshapes: NodeModel[] = [
   { id: 'Card', shape: { type: 'Flow', shape: 'Card' } },
   { id: 'Delay', shape: { type: 'Flow', shape: 'Delay' } },
 ]
-const bpmnShapes: NodeModel[] = [
-  {
-    id: 'Start',
-    width: 35,
-    height: 35,
-    shape: {
-      type: 'Bpmn',
-      shape: 'Event',
-      event: { event: 'Start' },
-    },
-  },
-  {
-    id: 'NonInterruptingIntermediate',
-    width: 35,
-    height: 35,
-    shape: {
-      type: 'Bpmn',
-      shape: 'Event',
-      event: { event: 'NonInterruptingIntermediate' },
-    },
-  },
-  {
-    id: 'End',
-    width: 35,
-    height: 35,
-    offsetX: 665,
-    offsetY: 230,
-    shape: {
-      type: 'Bpmn',
-      shape: 'Event',
-      event: { event: 'End' },
-    },
-  },
-  {
-    id: 'Task',
-    width: 35,
-    height: 35,
-    offsetX: 700,
-    offsetY: 700,
-    shape: {
-      type: 'Bpmn',
-      shape: 'Activity',
-      activity: {
-        activity: 'Task',
-      },
-    },
-  },
-  {
-    id: 'Transaction',
-    width: 35,
-    height: 35,
-    offsetX: 300,
-    offsetY: 100,
-    constraints: NodeConstraints.Default | NodeConstraints.AllowDrop,
-    shape: {
-      type: 'Bpmn',
-      shape: 'Activity',
-      activity: {
-        activity: 'SubProcess',
-        subProcess: {
-          type: 'Transaction',
-          transaction: {
-            cancel: { visible: false },
-            failure: { visible: false },
-            success: { visible: false },
-          },
-        },
-      },
-    },
-  },
-  {
-    id: 'Task_Service',
-    width: 35,
-    height: 35,
-    offsetX: 700,
-    offsetY: 700,
-    shape: {
-      type: 'Bpmn',
-      shape: 'Activity',
-      activity: {
-        activity: 'Task',
-        task: { type: 'Service' },
-      },
-    },
-  },
-  {
-    id: 'Gateway',
-    width: 35,
-    height: 35,
-    offsetX: 100,
-    offsetY: 100,
-    shape: { type: 'Bpmn', shape: 'Gateway', gateway: { type: 'Exclusive' } },
-  },
-  {
-    id: 'DataObject',
-    width: 35,
-    height: 35,
-    offsetX: 500,
-    offsetY: 100,
-    shape: {
-      type: 'Bpmn',
-      shape: 'DataObject',
-      dataObject: { collection: false, type: 'None' },
-    },
-  },
-  {
-    id: 'subProcess',
-    width: 520,
-    height: 250,
-    offsetX: 355,
-    offsetY: 230,
-    constraints: NodeConstraints.Default | NodeConstraints.AllowDrop,
-    shape: {
-      shape: 'Activity',
-      type: 'Bpmn',
-      activity: {
-        activity: 'SubProcess',
-        subProcess: {
-          type: 'Transaction',
-          collapsed: false,
-          processes: [],
-          transaction: {
-            cancel: { visible: false },
-            failure: { visible: false },
-            success: { visible: false },
-          },
-        },
-      },
-    },
-  },
-]
 
-// @ts-ignore
-const bpmnConnectors: ConnectorModel[] = [
-  { id: 'connector1', sourceID: 'start', targetID: 'subProcess' },
-  {
-    id: 'connector2',
-    sourceID: 'subProcess',
-    sourcePortID: 'success',
-    targetID: 'end',
-  },
-  {
-    id: 'connector3',
-    sourceID: 'subProcess',
-    sourcePortID: 'failure',
-    targetID: 'hazardEnd',
-    type: 'Orthogonal',
-    segments: [{ type: 'Orthogonal', length: 50, direction: 'Bottom' }],
-    annotations: [
-      {
-        id: 'connector3Label2',
-        content: 'Booking system failure',
-        offset: 0.5,
-        style: { fill: 'white' },
-      },
-    ],
-  },
-  {
-    id: 'connector4',
-    sourceID: 'subProcess',
-    sourcePortID: 'cancel',
-    targetID: 'cancelledEnd',
-    type: 'Orthogonal',
-    segments: [{ type: 'Orthogonal', length: 50, direction: 'Bottom' }],
-  },
-  {
-    id: 'connector5',
-    sourceID: 'processesStart',
-    targetID: 'service',
-    type: 'Orthogonal',
-  },
-  { id: 'connector6', sourceID: 'service', targetID: 'processesTask' },
-  {
-    id: 'connector7',
-    sourceID: 'processesTask',
-    targetID: 'processesEnd',
-    type: 'Orthogonal',
-  },
-  {
-    id: 'connector8',
-    sourceID: 'compensation',
-    targetID: 'user',
-    type: 'Orthogonal',
-    shape: {
-      type: 'Bpmn',
-      flow: 'Association',
-      association: 'Directional',
-    },
-    style: {
-      strokeDashArray: '2,2',
-    },
-    segments: [
-      { type: 'Orthogonal', length: 30, direction: 'Bottom' },
-      { type: 'Orthogonal', length: 80, direction: 'Right' },
-    ],
-  },
-  {
-    id: 'connector9',
-    sourceID: 'error',
-    targetID: 'subProcessesEnd',
-    type: 'Orthogonal',
-    annotations: [
-      {
-        id: 'connector9Label2',
-        content: 'Cannot charge card',
-        offset: 0.5,
-        style: { fill: 'white', color: 'black' },
-      },
-    ],
-    segments: [{ type: 'Orthogonal', length: 50, direction: 'Bottom' }],
-  },
-]
 // Initializes connector symbols for the symbol palette
-// @ts-ignore
 const connectorSymbols = [
   {
     id: 'Link1',
@@ -665,26 +450,12 @@ export default class Serialization extends SampleBase {
                     title: 'Flow Shapes',
                   },
                   {
-                    id: 'Bpmn',
-                    expanded: true,
-                    symbols: bpmnShapes,
-                    iconCss: 'e-diagram-icons1 e-diagram-Bpmn',
-                    title: 'Bpmn Shapes',
-                  },
-                  {
                     id: 'connectors',
                     expanded: true,
                     symbols: connectorSymbols,
                     iconCss: 'e-diagram-icons1 e-diagram-connector',
                     title: 'Connectors',
                   },
-                  // {
-                  //   id: 'bpmnConnectors',
-                  //   expanded: true,
-                  //   symbols: bpmnConnectors,
-                  //   iconCss: 'e-diagram-icons1 e-diagram-connector',
-                  //   title: 'BPMN Connectors',
-                  // },
                 ]} // set default value for Node.
                 getNodeDefaults={(symbol: any) => {
                   symbol.style.strokeColor = '#757575'
