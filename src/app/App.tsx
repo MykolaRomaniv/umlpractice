@@ -7,7 +7,7 @@ import SignUp from 'app/containers/Login/SignUp'
 import SignIn from 'app/containers/Login/SignIn'
 import ExercisesCategories from 'app/containers/ExercisesCategories'
 import ExercisesList from 'app/containers/ExercisesList'
-import Exercise from 'app/containers/Exercise'
+import ExerciseCreation from 'app/containers/ExerciseCreation'
 import Bpmn from 'app/containers/Exercise/Bpmn'
 import Class from 'app/containers/Exercise/Class'
 import Flow from 'app/containers/Exercise/Flow'
@@ -31,7 +31,11 @@ const App = (): JSX.Element => {
           exact
           component={ExercisesList}
         />
-        <Route path={`/${routes.exercise}`} exact component={Exercise} />
+        <Route
+          path={`/${routes.exerciseCreation}`}
+          exact
+          component={ExerciseCreation}
+        />
         <Route path={`/${routes.bpmnExercise}`} exact component={Bpmn} />
         <Route path={`/${routes.classExercise}`} exact component={Class} />
         <Route path={`/${routes.flowExercise}`} exact component={Flow} />
