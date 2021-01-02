@@ -22,12 +22,17 @@ import ListItemLink from 'app/components/ListItemLink'
 interface INavItem {
   text: string
   icon: typeof SvgIcon | JSX.Element
+  link: string
 }
 
 const navItems: INavItem[] = [
-  { text: 'Вправи', icon: <InboxIcon /> },
-  { text: 'Створити вправу', icon: <AddToPhotosIcon /> },
-  { text: 'Статистика', icon: <AssessmentIcon /> },
+  { text: 'Вправи', icon: <InboxIcon />, link: routes.exercisesCategories },
+  {
+    text: 'Створити вправу',
+    icon: <AddToPhotosIcon />,
+    link: routes.exerciseCreation,
+  },
+  { text: 'Статистика', icon: <AssessmentIcon />, link: '#' },
 ]
 
 const NavBar = (): JSX.Element => {
@@ -69,7 +74,7 @@ const NavBar = (): JSX.Element => {
           {navItems.map((item) => (
             <ListItemLink
               key={item.text}
-              to={`/${routes.exercisesCategories}`}
+              to={`/${item.link}`}
               button
               onClick={toggleDrawer(false)}
             >
