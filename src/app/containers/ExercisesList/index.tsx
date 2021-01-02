@@ -8,7 +8,7 @@ import Container from '@material-ui/core/Container'
 
 import useQuery from 'app/hooks/useQuery'
 import exercisesCategories from 'app/constants/exerciseCategories'
-import ExerciseItem from './ExerciseItem'
+import ExerciseItem from '../../components/ExerciseItem'
 import useStyles from './styles'
 
 const exercises: IExerciseItem[] | undefined = [
