@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     headerCenter: {
       textAlign: 'center',
-      backgroundColor: 'transparent',
+      backgroundColor: '#fafafa',
     },
   }),
 )

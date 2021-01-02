@@ -51,10 +51,14 @@ const ExercisesList = (): JSX.Element => {
         </>
       ) : (
         <Container className={classes.headerCenter}>
-          <Typography variant="h4" component="h2">
+          <Typography
+            variant="h4"
+            component="h2"
+            className={classes.headerCenter}
+          >
             {'У вас поки немає завдань з цієї категорії\r'}
           </Typography>
-          <Typography component="body">
+          <Typography component="p">
             {'Попросіть вчителя створити для вас'}
           </Typography>
         </Container>
