@@ -1,5 +1,7 @@
 import React from 'react'
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import routes from 'app/constants/routes'
 import NavBar from 'app/components/NavBar'
@@ -14,34 +16,42 @@ import Flow from 'app/containers/Exercise/Flow'
 
 import '../../node_modules/@syncfusion/ej2-react-diagrams/styles/material.css'
 
-const App = (): JSX.Element => {
-  return (
-    <BrowserRouter>
-      <NavBar />
-      <Switch>
-        <Route path="/" exact component={SignUp} />
-        <Route path={`/${routes.signIn}`} exact component={SignIn} />
-        <Route
-          path={`/${routes.exercisesCategories}`}
-          exact
-          component={ExercisesCategories}
-        />
-        <Route
-          path={`/${routes.exercisesList}`}
-          exact
-          component={ExercisesList}
-        />
-        <Route
-          path={`/${routes.exerciseCreation}`}
-          exact
-          component={ExerciseCreation}
-        />
-        <Route path={`/${routes.bpmnExercise}`} exact component={Bpmn} />
-        <Route path={`/${routes.classExercise}`} exact component={Class} />
-        <Route path={`/${routes.flowExercise}`} exact component={Flow} />
-      </Switch>
-    </BrowserRouter>
-  )
-}
+const App = (): JSX.Element => (
+  <BrowserRouter>
+    <ToastContainer
+      position="top-right"
+      autoClose={5000}
+      hideProgressBar
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      draggable
+      pauseOnHover
+    />
+    <NavBar />
+    <Switch>
+      <Route path="/" exact component={SignUp} />
+      <Route path={`/${routes.signIn}`} exact component={SignIn} />
+      <Route
+        path={`/${routes.exercisesCategories}`}
+        exact
+        component={ExercisesCategories}
+      />
+      <Route
+        path={`/${routes.exercisesList}`}
+        exact
+        component={ExercisesList}
+      />
+      <Route
+        path={`/${routes.exerciseCreation}`}
+        exact
+        component={ExerciseCreation}
+      />
+      <Route path={`/${routes.bpmnExercise}`} exact component={Bpmn} />
+      <Route path={`/${routes.classExercise}`} exact component={Class} />
+      <Route path={`/${routes.flowExercise}`} exact component={Flow} />
+    </Switch>
+  </BrowserRouter>
+)
 
 export default App
