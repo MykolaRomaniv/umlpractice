@@ -1,18 +1,18 @@
-import { AppThunkAsync, IError, IUser } from 'app/types'
+import { AppThunkAsync, IError, ISignInData, IUser } from 'app/types'
 import action from 'app/store/action'
 import notify from 'app/services'
 import ActionType from './types'
 
-export const userLogin = (
-  user: IUser,
-  onSuccess?: (userData: IUser | undefined) => void,
+// TODO add connection to server
+export const userSignIn = (
+  data: ISignInData,
+  onSuccess?: () => void,
   onError?: (e: IError) => void,
-): AppThunkAsync<IUser | undefined> => async (dispatch) => {
+): AppThunkAsync<ISignInData | undefined> => async (dispatch) => {
   dispatch(action(ActionType.SIGN_IN_BEGIN))
-
   try {
-    dispatch(action(ActionType.SIGN_IN_SUCCESS, user))
-    onSuccess?.(user)
+    dispatch(action(ActionType.SIGN_IN_SUCCESS, data))
+    onSuccess?.()
   } catch (error) {
     notify(error)
     dispatch(action(ActionType.SIGN_IN_ERROR, error))
@@ -23,12 +23,12 @@ export const userLogin = (
 export const updateUser = (
   user: IUser,
   onSuccess?: () => void,
-): AppThunkAsync => async (dispatch) => {
+): AppThunkAsync<IUser> => async (dispatch) => {
   dispatch(action(ActionType.UPDATE_USER, user))
   onSuccess?.()
 }
 
-export const userLogout = (onSuccess?: () => void): AppThunkAsync => async (
+export const userSignOut = (onSuccess?: () => void): AppThunkAsync => async (
   dispatch,
 ) => {
   // TODO add here or delete from types SIGN_OUT_BEGIN and SIGN_OUT_ERROR
@@ -37,7 +37,7 @@ export const userLogout = (onSuccess?: () => void): AppThunkAsync => async (
 }
 
 export default {
-  userLogin,
+  userSignIn,
   updateUser,
-  userLogout,
+  userSignOut,
 }

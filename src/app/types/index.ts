@@ -13,6 +13,11 @@ interface IBackendError {
   }
 }
 
+export interface ISignInData {
+  email: string
+  password: string
+}
+
 export type IError<T = { errors: string[] }> =
   | {
       name?: string

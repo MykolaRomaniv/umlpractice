@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -9,12 +9,44 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'
 import { Link as RouterLink } from 'react-router-dom'
+import { bindActionCreators, Dispatch } from 'redux'
+import { connect, ConnectedProps } from 'react-redux'
 
 import routes from 'app/constants/routes'
+// import { ReduxState } from 'app/types'
+import { AllAction } from 'app/store/action'
+import userActions from 'app/store/user/actions'
 import useStyles from './styles'
 
-const SignIn = (): JSX.Element => {
+// const mapStateToProps = (state: ReduxState) => ({
+
+// })
+
+const mapDispatchToProps = (dispatch: Dispatch<AllAction>) => ({
+  actions: bindActionCreators(userActions, dispatch),
+})
+
+const connector = connect(null, mapDispatchToProps)
+
+type IProps = ConnectedProps<typeof connector>
+
+const SignIn = ({ actions: { userSignIn } }: IProps): JSX.Element => {
   const classes = useStyles()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value)
+  }
+  const handlePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value)
+  }
+  const onSignInClick = () => {
+    userSignIn({
+      email,
+      password,
+    })
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -37,6 +69,8 @@ const SignIn = (): JSX.Element => {
             name="email"
             autoComplete="email"
             autoFocus
+            value={email}
+            onChange={handleEmail}
           />
           <TextField
             variant="outlined"
@@ -48,6 +82,8 @@ const SignIn = (): JSX.Element => {
             type="password"
             id="password"
             autoComplete="current-password"
+            value={password}
+            onChange={handlePassword}
           />
           <Link
             component={RouterLink}
@@ -60,6 +96,7 @@ const SignIn = (): JSX.Element => {
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick={onSignInClick}
             >
               {'Sign In\r'}
             </Button>
@@ -77,4 +114,4 @@ const SignIn = (): JSX.Element => {
   )
 }
 
-export default SignIn
+export default connector(SignIn)
