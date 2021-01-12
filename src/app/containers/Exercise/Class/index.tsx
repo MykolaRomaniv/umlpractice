@@ -12,6 +12,9 @@ import {
   NodeModel,
   ConnectorModel,
   UmlClassifierShapeModel,
+  UmlEnumerationMemberModel,
+  TextStyleModel,
+  ShapeStyleModel,
   // ClassifierShape,
   // AssociationFlow,
 } from '@syncfusion/ej2-react-diagrams'
@@ -21,6 +24,9 @@ import SampleBase from '../sample-base'
 let diagramInstance: DiagramComponent | null
 
 // Create a connector.
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function createConnector(
   id: string,
   sourceID: string,
@@ -34,22 +40,32 @@ function createConnector(
 }
 
 // create class Property
-function createProperty(name: string, type: string): object {
+const createProperty = (name: string, type: string): object => {
   return { name, type }
 }
 
 // create class Methods
-function createMethods(name: string, type: string): object {
+const createMethods = (name: string, type: string): object => {
   return { name, type }
 }
 
+const createEnumMember = (
+  name: string,
+  value: string,
+  isSeparator?: boolean,
+  style?: ShapeStyleModel | TextStyleModel,
+): UmlEnumerationMemberModel => {
+  return { name, value, isSeparator, style }
+}
+
 // Create class Diagram shapes.
-function createNode(
+const createClass = (
   id: string,
   offsetX: number,
   offsetY: number,
-  className: string,
-): NodeModel {
+  name: string,
+  style?: TextStyleModel,
+): NodeModel => {
   const node: NodeModel = {}
   node.id = id
   node.offsetX = offsetX
@@ -57,147 +73,69 @@ function createNode(
   node.shape = {
     type: 'UmlClassifier',
     classShape: {
-      name: className,
+      name,
+      attributes: [createProperty('property', 'type')],
+      methods: [createMethods('method', 'returnType')],
+      style,
     },
     classifier: 'Class',
   } as UmlClassifierShapeModel
   return node
 }
 
-const nodes: NodeModel[] = [
-  {
-    id: 'Patient',
-    shape: {
-      type: 'UmlClassifier',
-      classShape: {
-        name: 'Patient',
-        attributes: [
-          createProperty('accepted', 'Date'),
-          createProperty('sickness', 'History'),
-          createProperty('prescription', 'String[*]'),
-          createProperty('allergies', 'String[*]'),
-        ],
-        methods: [createMethods('getHistory', 'History')],
-      },
-      classifier: 'Class',
-    } as UmlClassifierShapeModel,
-    offsetX: 200,
-    offsetY: 250,
-  },
-  {
-    id: 'Doctor',
-    shape: {
-      type: 'UmlClassifier',
-      classShape: {
-        name: 'Doctor',
-        attributes: [
-          createProperty('specialist', 'String[*]'),
-          createProperty('locations', 'String[*]'),
-        ],
-      },
-      classifier: 'Class',
-    } as UmlClassifierShapeModel,
-    offsetX: 240,
-    offsetY: 545,
-  },
-  {
-    id: 'Person',
-    shape: {
-      type: 'UmlClassifier',
-      classShape: {
-        name: 'Person',
-        attributes: [
-          createProperty('name', 'Name'),
-          createProperty('title', 'String[*]'),
-          createProperty('gender', 'Gender'),
-        ],
-      },
-      classifier: 'Class',
-    } as UmlClassifierShapeModel,
-    offsetX: 405,
-    offsetY: 105,
-  },
-  {
-    id: 'Hospital',
-    shape: {
-      type: 'UmlClassifier',
-      classShape: {
-        name: 'Hospital',
-        attributes: [
-          createProperty('name', 'Name'),
-          createProperty('address', 'Address'),
-          createProperty('phone', 'Phone'),
-        ],
-        methods: [createMethods('getDepartment', 'String')],
-      },
-      classifier: 'Class',
-    } as UmlClassifierShapeModel,
-    offsetX: 638,
-    offsetY: 100,
-  },
-  {
-    id: 'Department',
-    shape: {
-      type: 'UmlClassifier',
-      classShape: {
-        name: 'Department',
-        methods: [createMethods('getStaffCount', 'Int')],
-      },
-      classifier: 'Class',
-    } as UmlClassifierShapeModel,
-    offsetX: 638,
-    offsetY: 280,
-  },
-  {
-    id: 'Staff',
-    shape: {
-      type: 'UmlClassifier',
-      classShape: {
-        name: 'Staff',
-        attributes: [
-          createProperty('joined', 'Date'),
-          createProperty('education', 'string[*]'),
-          createProperty('certification', 'string[*]'),
-          createProperty('languages', 'string[*]'),
-        ],
-        methods: [
-          createMethods('isDoctor', 'bool'),
-          createMethods('getHistory', 'bool'),
-        ],
-      },
-      classifier: 'Class',
-    } as UmlClassifierShapeModel,
-    offsetX: 635,
-    offsetY: 455,
-  },
-  createNode('OperationStaff', 410, 455, 'OperationStaff'),
-  createNode('Nurse', 410, 545, 'Nurse'),
-  createNode('Surgeon', 240, 665, 'Surgeon'),
-  createNode('AdministrativeStaff', 632, 605, 'AdministrativeStaff'),
-  createNode('FrontDeskStaff', 630, 695, 'FrontDeskStaff'),
-  createNode('TechnicalStaff', 928, 445, 'TechnicalStaff'),
-  createNode('Technician', 815, 535, 'Technician'),
-  createNode('Technologist', 1015, 535, 'Technologist'),
-  createNode('SurgicalTechnologist', 1015, 630, 'SurgicalTechnologist'),
-]
+const createInterface = (
+  id: string,
+  offsetX: number,
+  offsetY: number,
+  name: string,
+  style?: TextStyleModel,
+) => {
+  const node: NodeModel = {}
+  node.id = id
+  node.offsetX = offsetX
+  node.offsetY = offsetY
+  node.shape = {
+    type: 'UmlClassifier',
+    interfaceShape: {
+      name,
+      attributes: [createProperty('property', 'type')],
+      methods: [createMethods('method', 'returnType')],
+      style,
+      isSeparator: true,
+    },
+    classifier: 'Interface',
+  } as UmlClassifierShapeModel
+  return node
+}
+
+const createEnumeration = (
+  id: string,
+  offsetX: number,
+  offsetY: number,
+  name: string,
+  style?: TextStyleModel,
+) => {
+  const node: NodeModel = {}
+  node.id = id
+  node.offsetX = offsetX
+  node.offsetY = offsetY
+  node.shape = {
+    type: 'UmlClassifier',
+    enumerationShape: {
+      name,
+      members: [
+        createEnumMember('Name', 'Value'),
+        { name: 'AAA', value: 'QQQ' },
+      ],
+      style,
+    },
+    classifier: 'Enumeration',
+  } as UmlClassifierShapeModel
+  return node
+}
 
 const connectors: ConnectorModel[] = [
-  createConnector('connect1', 'Patient', 'Person'),
-  createConnector('connect2', 'Person', 'Hospital'),
-  createConnector('connect3', 'Department', 'Hospital'),
-  createConnector('connect4', 'OperationStaff', 'Patient'),
-  createConnector('connect5', 'Doctor', 'OperationStaff'),
-  createConnector('connect6', 'Nurse', 'OperationStaff'),
-  createConnector('connect7', 'Surgeon', 'Doctor'),
-  createConnector('connect8', 'FrontDeskStaff', 'AdministrativeStaff'),
-  createConnector('connect9', 'Technician', 'TechnicalStaff'),
-  createConnector('connect10', 'Technologist', 'TechnicalStaff'),
-  createConnector('connect11', 'SurgicalTechnologist', 'Technologist'),
-  createConnector('connect12', 'Staff', 'Department'),
-  createConnector('connect13', 'Staff', 'Person'),
-  createConnector('connect14', 'OperationStaff', 'Staff'),
-  createConnector('connect15', 'AdministrativeStaff', 'Staff'),
-  createConnector('connect16', 'TechnicalStaff', 'Staff'),
+  // createConnector('connect1', 'Patient', 'Person'),
 ]
 
 export default class UMLClassDiagram extends SampleBase {
@@ -209,12 +147,39 @@ export default class UMLClassDiagram extends SampleBase {
   render() {
     return (
       <div className="control-section">
+        <button
+          id="class"
+          aria-label="Btn"
+          type="button"
+          onClick={() => {
+            diagramInstance?.add(createClass(Date(), 100, 100, 'ClassName'))
+          }}
+        />
+        <button
+          id="interface"
+          aria-label="Btn"
+          type="button"
+          onClick={() => {
+            diagramInstance?.add(
+              createInterface(Date(), 100, 100, 'InterfaceName'),
+            )
+          }}
+        />
+        <button
+          id="enumeration"
+          aria-label="Btn"
+          type="button"
+          onClick={() => {
+            diagramInstance?.add(
+              createEnumeration(Date(), 100, 100, 'EnumName'),
+            )
+          }}
+        />
         <DiagramComponent
           id="diagram"
           width="100%"
           height="800px"
           ref={(diagram) => (diagramInstance = diagram)}
-          nodes={nodes}
           connectors={connectors}
           // Sets the default values of a node
           getNodeDefaults={(obj: NodeModel) => {
