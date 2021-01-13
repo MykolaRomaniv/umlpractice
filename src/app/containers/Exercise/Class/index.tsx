@@ -19,6 +19,8 @@ import {
   Multiplicity,
   ClassifierShape,
 } from '@syncfusion/ej2-react-diagrams'
+import { ToolbarComponent } from '@syncfusion/ej2-react-navigations'
+import { UploaderComponent } from '@syncfusion/ej2-react-inputs'
 
 import SampleBase from '../sample-base'
 import styles from './styles.module.scss'
@@ -159,6 +161,53 @@ const connectors: ConnectorModel[] = [
   // createConnector('connect1', 'Patient', 'Person'),
 ]
 
+const openPalette = () => {
+  const paletteSpace = document.getElementById('palette-space')
+  const isMobile = window.matchMedia('(max-width:550px)').matches
+  if (isMobile) {
+    if (!paletteSpace?.classList.contains('sb-mobile-palette-open')) {
+      paletteSpace?.classList.add('sb-mobile-palette-open')
+    } else {
+      paletteSpace.classList.remove('sb-mobile-palette-open')
+    }
+  }
+}
+
+const download = (data: string | undefined) => {
+  if (data) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    if (window.navigator.msSaveBlob) {
+      const blob = new Blob([data], { type: 'data:text/json;charset=utf-8,' })
+      window.navigator.msSaveOrOpenBlob(blob, 'Diagram.json')
+    } else {
+      const dataStr = `data:text/json;charset=utf-8,${encodeURIComponent(data)}`
+      const a = document.createElement('a')
+      a.href = dataStr
+      a.download = 'Diagram.json'
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+    }
+  }
+}
+
+// Load the diagraming object.
+function loadDiagram(event: ProgressEvent<FileReader>) {
+  if (event?.target?.result) {
+    diagramInstance?.loadDiagram(event.target.result as string)
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function onUploadSuccess(args: any) {
+  const file1 = args.file
+  const file = file1.rawFile
+  const reader = new FileReader()
+  reader.readAsText(file)
+  reader.onloadend = loadDiagram
+}
+
 export default class UMLClassDiagram extends SampleBase {
   // eslint-disable-next-line class-methods-use-this
   rendereComplete() {
@@ -168,6 +217,48 @@ export default class UMLClassDiagram extends SampleBase {
   render() {
     return (
       <div className="control-section">
+        <ToolbarComponent
+          id="toolbar_diagram"
+          style={{ width: '100%', height: '10%', marginTop: '10px' }}
+          clicked={(args) => {
+            if (args?.item.text === 'New') {
+              diagramInstance?.clear()
+            } else if (args?.item.text === 'Load') {
+              document
+                ?.getElementsByClassName('e-file-select-wrap')[0]
+                ?.querySelector('button')
+                ?.click()
+            } else if (args?.item.id === 'palette-icon') {
+              openPalette()
+            } else {
+              download(diagramInstance?.saveDiagram())
+            }
+          }}
+          items={[
+            {
+              id: 'palette-icon',
+              prefixIcon: 'e-ddb-icons2 e-toggle-palette',
+              align: 'Right',
+            },
+            {
+              text: 'New',
+              tooltipText: 'New',
+              prefixIcon: 'e-diagram-icons e-diagram-new',
+            },
+            { type: 'Separator' },
+            {
+              text: 'Save',
+              tooltipText: 'Save',
+              prefixIcon: 'e-diagram-icons e-diagram-save',
+            },
+            { type: 'Separator' },
+            {
+              text: 'Load',
+              tooltipText: 'Load',
+              prefixIcon: 'e-diagram-icons e-diagram-open',
+            },
+          ]}
+        />
         <div className={styles.contentWrapper}>
           <div className={styles.palette}>
             <div className={styles.paletteSection}>
@@ -297,6 +388,17 @@ export default class UMLClassDiagram extends SampleBase {
             }}
           />
         </div>
+        <UploaderComponent
+          type="file"
+          id="fileupload"
+          asyncSettings={{
+            saveUrl:
+              'https://aspnetmvc.syncfusion.com/services/api/uploadbox/Save',
+            removeUrl:
+              'https://aspnetmvc.syncfusion.com/services/api/uploadbox/Remove',
+          }}
+          success={onUploadSuccess}
+        />
       </div>
     )
   }
