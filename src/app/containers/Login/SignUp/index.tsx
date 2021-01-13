@@ -1,4 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { bindActionCreators, Dispatch } from 'redux'
+import { connect, ConnectedProps } from 'react-redux'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -12,10 +14,38 @@ import { Link as RouterLink } from 'react-router-dom'
 
 import RadioGroup from 'app/components/RadioGroup'
 import routes from 'app/constants/routes'
+import { AllAction } from 'app/store/action'
+import userActions from 'app/store/user/actions'
+import { IUserType } from 'app/types'
+
 import useStyles from './styles'
 
-const SignUp = (): JSX.Element => {
+const mapDispatchToProps = (dispatch: Dispatch<AllAction>) => ({
+  actions: bindActionCreators(userActions, dispatch),
+})
+
+const connector = connect(null, mapDispatchToProps)
+
+type IProps = ConnectedProps<typeof connector>
+
+const SignUp = ({ actions: { userSignUp } }: IProps): JSX.Element => {
   const classes = useStyles()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [name, setName] = useState('')
+  const [userType, setUserType] = useState<IUserType>('student')
+
+  const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value)
+  }
+  const handlePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value)
+  }
+  const handleName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value)
+  }
+
+  const onSignUp = () => userSignUp({ email, password, name, type: userType })
 
   return (
     <Container component="main" maxWidth="xs">
@@ -39,6 +69,8 @@ const SignUp = (): JSX.Element => {
                 id="firstName"
                 label="First Name"
                 autoFocus
+                value={name}
+                onChange={handleName}
               />
             </Grid>
             <Grid item xs={12}>
@@ -50,6 +82,8 @@ const SignUp = (): JSX.Element => {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                value={email}
+                onChange={handleEmail}
               />
             </Grid>
             <Grid item xs={12}>
@@ -62,10 +96,12 @@ const SignUp = (): JSX.Element => {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                value={password}
+                onChange={handlePassword}
               />
             </Grid>
             <Grid item xs={12}>
-              <RadioGroup />
+              <RadioGroup onChange={setUserType} />
             </Grid>
           </Grid>
           <Link
@@ -79,6 +115,7 @@ const SignUp = (): JSX.Element => {
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick={onSignUp}
             >
               {'Sign Up\r'}
             </Button>
@@ -96,4 +133,4 @@ const SignUp = (): JSX.Element => {
   )
 }
 
-export default SignUp
+export default connector(SignUp)
