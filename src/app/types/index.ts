@@ -13,9 +13,16 @@ interface IBackendError {
   }
 }
 
+export type IUserType = 'student' | 'teacher'
+
 export interface ISignInData {
   email: string
   password: string
+}
+
+export interface ISignUpData extends ISignInData {
+  type: IUserType
+  name: string
 }
 
 export type IError<T = { errors: string[] }> =
@@ -40,7 +47,7 @@ export type AppThunkAsync<ReturnType = unknown> = ThunkAction<
 >
 
 export interface IUser {
-  type: 'student' | 'teacher'
+  type: IUserType
   id: number | string
   name: string
   email: string
