@@ -13,7 +13,7 @@ import ExerciseCreation from 'app/containers/ExerciseCreation'
 import Bpmn from 'app/containers/Exercise/Bpmn'
 import Class from 'app/containers/Exercise/Class'
 import Flow from 'app/containers/Exercise/Flow'
-import { authStateListener } from 'app/services/emailFirebase'
+import { authStateListener } from 'app/services/authFirebase'
 import firebase from 'app/services/firebaseApi'
 
 import '../../node_modules/@syncfusion/ej2-react-diagrams/styles/material.css'
