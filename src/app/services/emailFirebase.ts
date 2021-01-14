@@ -20,24 +20,11 @@ export const signInWithEmailPassword = (
     })
 }
 
-export const signUpWithEmailPassword = (
+export const signUpWithEmailPassword = async (
   email: string,
   password: string,
-): void => {
-  firebase
-    .auth()
-    .createUserWithEmailAndPassword(email, password)
-    .then((user) => {
-      console.log('user', user)
-    })
-    .catch((error) => {
-      console.log('error', error)
-      const errorCode = error.code
-      console.log('errorCode', errorCode)
-      const errorMessage = error.message
-      console.log('errorMessage', errorMessage)
-    })
-}
+): Promise<firebase.default.auth.UserCredential> =>
+  firebase.auth().createUserWithEmailAndPassword(email, password)
 
 export const sendEmailVerification = (): void => {
   firebase
