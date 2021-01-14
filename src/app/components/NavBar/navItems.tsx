@@ -3,6 +3,7 @@ import InboxIcon from '@material-ui/icons/MoveToInbox'
 import AddToPhotosIcon from '@material-ui/icons/AddToPhotos'
 import SvgIcon from '@material-ui/core/SvgIcon'
 import AssessmentIcon from '@material-ui/icons/Assessment'
+
 import routes from 'app/constants/routes'
 
 export interface INavItem {
@@ -11,18 +12,26 @@ export interface INavItem {
   link: string
 }
 
-const navItems: INavItem[] = [
+export const studentNavItems: INavItem[] = [
   {
     text: 'Вправи',
     icon: <InboxIcon />,
     link: routes.exercisesCategories,
   },
   {
+    text: 'Статистика',
+    icon: <AssessmentIcon />,
+    link: '#',
+  },
+]
+
+export const teacherNavItems: INavItem[] = [
+  {
     text: 'Створити вправу',
     icon: <AddToPhotosIcon />,
     link: routes.exerciseCreation,
   },
-  { text: 'Статистика', icon: <AssessmentIcon />, link: '#' },
+  ...studentNavItems,
 ]
 
-export default navItems
+export default { studentNavItems, teacherNavItems }
