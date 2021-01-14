@@ -1,4 +1,5 @@
 /* eslint-disable no-shadow */
+// TODO refactor with '/'
 enum routes {
   signIn = 'sign-in',
   signUp = 'sign-up',

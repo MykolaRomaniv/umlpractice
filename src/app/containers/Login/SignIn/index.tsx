@@ -13,14 +13,9 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 
 import routes from 'app/constants/routes'
-// import { ReduxState } from 'app/types'
 import { AllAction } from 'app/store/action'
 import userActions from 'app/store/user/actions'
 import useStyles from './styles'
-
-// const mapStateToProps = (state: ReduxState) => ({
-
-// })
 
 const mapDispatchToProps = (dispatch: Dispatch<AllAction>) => ({
   actions: bindActionCreators(userActions, dispatch),
