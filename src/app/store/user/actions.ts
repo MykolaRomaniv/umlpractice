@@ -7,8 +7,12 @@ import {
 } from 'app/types'
 import action from 'app/store/action'
 import notify from 'app/services/notify'
-import { signUpWithEmailPassword } from 'app/services/emailFirebase'
+import {
+  signInWithEmailPassword,
+  signUpWithEmailPassword,
+} from 'app/services/emailFirebase'
 import api from 'app/services/api'
+import { AxiosResponse } from 'axios'
 import ActionType from './types'
 
 export const userSignUp = (
@@ -30,7 +34,6 @@ export const userSignUp = (
   }
 }
 
-// TODO add connection to server
 export const userSignIn = (
   data: ISignInData,
   onSuccess?: () => void,
@@ -38,7 +41,14 @@ export const userSignIn = (
 ): AppThunkAsync<ISignInData | undefined> => async (dispatch) => {
   dispatch(action(ActionType.SIGN_IN_BEGIN))
   try {
-    dispatch(action(ActionType.SIGN_IN_SUCCESS, data))
+    const res = await signInWithEmailPassword(data.email, data.password)
+    const users: AxiosResponse<Record<string, IUser>> = await api.get(
+      'users.json',
+    )
+    const user = Object.values(users.data).find(
+      (userObj) => userObj.id === res.user?.uid,
+    )
+    dispatch(action(ActionType.SIGN_IN_SUCCESS, user))
     onSuccess?.()
   } catch (error) {
     notify(error)
