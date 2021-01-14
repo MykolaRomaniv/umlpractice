@@ -4,21 +4,8 @@ import firebase from './firebaseApi'
 export const signInWithEmailPassword = (
   email: string,
   password: string,
-): void => {
-  firebase
-    .auth()
-    .signInWithEmailAndPassword(email, password)
-    .then((user) => {
-      console.log('user', user)
-    })
-    .catch((error) => {
-      console.log('error', error)
-      const errorCode = error.code
-      console.log('errorCode', errorCode)
-      const errorMessage = error.message
-      console.log('errorMessage', errorMessage)
-    })
-}
+): Promise<firebase.default.auth.UserCredential> =>
+  firebase.auth().signInWithEmailAndPassword(email, password)
 
 export const signUpWithEmailPassword = async (
   email: string,
