@@ -1,4 +1,6 @@
 import React from 'react'
+import { bindActionCreators, Dispatch } from 'redux'
+import { connect, ConnectedProps } from 'react-redux'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
@@ -10,32 +12,28 @@ import List from '@material-ui/core/List'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import Divider from '@material-ui/core/Divider'
-import InboxIcon from '@material-ui/icons/MoveToInbox'
+import Button from '@material-ui/core/Button'
 import MailIcon from '@material-ui/icons/Mail'
-import AddToPhotosIcon from '@material-ui/icons/AddToPhotos'
-import AssessmentIcon from '@material-ui/icons/Assessment'
-import SvgIcon from '@material-ui/core/SvgIcon'
+import { Link as RouterLink } from 'react-router-dom'
+import Link from '@material-ui/core/Link'
 
-import routes from 'app/constants/routes'
+import userActions from 'app/store/user/actions'
 import ListItemLink from 'app/components/ListItemLink'
+import { AllAction } from 'app/store/action'
+import routes from 'app/constants/routes'
+import navItems from './navItems'
+import useStyles from './styles'
 
-interface INavItem {
-  text: string
-  icon: typeof SvgIcon | JSX.Element
-  link: string
-}
+const mapDispatchToProps = (dispatch: Dispatch<AllAction>) => ({
+  actions: bindActionCreators(userActions, dispatch),
+})
 
-const navItems: INavItem[] = [
-  { text: 'Вправи', icon: <InboxIcon />, link: routes.exercisesCategories },
-  {
-    text: 'Створити вправу',
-    icon: <AddToPhotosIcon />,
-    link: routes.exerciseCreation,
-  },
-  { text: 'Статистика', icon: <AssessmentIcon />, link: '#' },
-]
+const connector = connect(null, mapDispatchToProps)
 
-const NavBar = (): JSX.Element => {
+type IProps = ConnectedProps<typeof connector>
+
+const NavBar = ({ actions: { userSignOut } }: IProps): JSX.Element => {
+  const classes = useStyles()
   const [state, setState] = React.useState({
     isDrawer: false,
   })
@@ -54,8 +52,12 @@ const NavBar = (): JSX.Element => {
     setState({ ...state, isDrawer: open })
   }
 
+  const onLogOut = () => {
+    userSignOut()
+  }
+
   return (
-    <div>
+    <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
           <IconButton
@@ -63,10 +65,23 @@ const NavBar = (): JSX.Element => {
             color="inherit"
             aria-label="menu"
             onClick={toggleDrawer(true)}
+            className={classes.menuButton}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6">{'Архітектура ПЗ (лабораторні)'}</Typography>
+          <Typography variant="h6" className={classes.title}>
+            {'Архітектура ПЗ (лабораторні)'}
+          </Typography>
+          <Link
+            component={RouterLink}
+            to={`/${routes.signIn}`}
+            variant="body2"
+            color="inherit"
+          >
+            <Button color="inherit" onClick={onLogOut}>
+              {'Logout'}
+            </Button>
+          </Link>
         </Toolbar>
       </AppBar>
       <Drawer open={state.isDrawer} onClose={toggleDrawer(false)}>
@@ -97,4 +112,4 @@ const NavBar = (): JSX.Element => {
   )
 }
 
-export default NavBar
+export default connector(NavBar)
