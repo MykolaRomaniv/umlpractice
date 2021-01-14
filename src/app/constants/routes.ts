@@ -1,6 +1,6 @@
 /* eslint-disable no-shadow */
 enum routes {
-  signIn = 'sign-in',
+  signUp = 'sign-up',
   exercisesList = 'exercises-list',
   exercisesCategories = 'exercises-categories',
   exerciseCreation = 'exercises-creation',

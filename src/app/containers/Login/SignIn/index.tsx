@@ -103,7 +103,11 @@ const SignIn = ({ actions: { userSignIn } }: IProps): JSX.Element => {
           </Link>
           <Grid container>
             <Grid item>
-              <Link component={RouterLink} to="/" variant="body2">
+              <Link
+                component={RouterLink}
+                to={`/${routes.signUp}`}
+                variant="body2"
+              >
                 {`Don't have an account? Sign Up\r`}
               </Link>
             </Grid>

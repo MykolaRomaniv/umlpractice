@@ -34,8 +34,8 @@ const App = (): JSX.Element => {
       />
       <NavBar />
       <Switch>
-        <Route path="/" exact component={SignUp} />
-        <Route path={`/${routes.signIn}`} exact component={SignIn} />
+        <Route path="/" exact component={SignIn} />
+        <Route path={`/${routes.signUp}`} exact component={SignUp} />
         <Route
           path={`/${routes.exercisesCategories}`}
           exact
