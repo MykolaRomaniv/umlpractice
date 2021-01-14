@@ -38,9 +38,24 @@ export const sendPasswordReset = (email: string): void => {
     })
 }
 
+export const signOut = (): Promise<void> => firebase.auth().signOut()
+
+export const authStateListener = ():
+  | firebase.default.User
+  | null
+  | undefined => {
+  let user
+  firebase.auth().onAuthStateChanged((userObj) => {
+    user = userObj
+  })
+  return user
+}
+
 export default {
   signInWithEmailPassword,
   signUpWithEmailPassword,
   sendEmailVerification,
   sendPasswordReset,
+  signOut,
+  authStateListener,
 }
