@@ -8,9 +8,9 @@ import {
 import action from 'app/store/action'
 import notify from 'app/services/notify'
 import { signUpWithEmailPassword } from 'app/services/emailFirebase'
+import api from 'app/services/api'
 import ActionType from './types'
 
-// TODO add connection to server
 export const userSignUp = (
   data: ISignUpData,
   onSuccess?: () => void,
@@ -18,8 +18,10 @@ export const userSignUp = (
 ): AppThunkAsync<ISignUpData | undefined> => async (dispatch) => {
   dispatch(action(ActionType.SIGN_UP_BEGIN))
   try {
-    signUpWithEmailPassword(data.email, data.password)
-    dispatch(action(ActionType.SIGN_UP_SUCCESS, data))
+    const res = await signUpWithEmailPassword(data.email, data.password)
+    const user = { ...data, id: res.user?.uid }
+    await api.post('users.json', user)
+    dispatch(action(ActionType.SIGN_UP_SUCCESS, user))
     onSuccess?.()
   } catch (error) {
     notify(error)
