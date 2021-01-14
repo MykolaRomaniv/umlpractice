@@ -1,4 +1,4 @@
-import { toast, ToastContent, ToastOptions } from 'react-toastify'
+import { toast, TypeOptions } from 'react-toastify'
 
 const textArray: string[] = []
 
@@ -13,30 +13,8 @@ export interface IBackendError {
 
 const notify = (
   text: string | string[] | IBackendError,
-  type?: 'error' | 'success' | 'warning' | 'exit',
+  type: TypeOptions = 'error',
 ): void => {
-  let notifier: (
-    content: ToastContent,
-    options?: ToastOptions | undefined,
-  ) => React.ReactText
-
-  switch (type) {
-    case 'error':
-      notifier = toast.error
-      break
-    case 'success':
-      notifier = toast.success
-      break
-    case 'warning':
-      notifier = toast.warning
-      break
-    case 'exit':
-      notifier = toast.info
-      break
-    default:
-      notifier = toast
-  }
-
   if (text) {
     if (Array.isArray(text)) {
       arrayHandler(text)
@@ -48,7 +26,7 @@ const notify = (
   }
 
   textArray.forEach((el) => {
-    notifier(el)
+    toast(el, { type })
   })
 }
 
