@@ -18,10 +18,19 @@ const initialState: IState = {
 const reducer = (state = initialState, action: Action): IState => {
   switch (action.type) {
     case ActionType.SIGN_IN_BEGIN:
-    case ActionType.SIGN_OUT_BEGIN: {
+    case ActionType.SIGN_OUT_BEGIN:
+    case ActionType.SIGN_UP_BEGIN: {
       return {
         ...state,
         isLoading: true,
+      }
+    }
+    case ActionType.SIGN_UP_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+        error: '',
+        userData: action.payload,
       }
     }
     case ActionType.SIGN_IN_SUCCESS: {
@@ -49,7 +58,8 @@ const reducer = (state = initialState, action: Action): IState => {
       }
     }
     case ActionType.SIGN_IN_ERROR:
-    case ActionType.SIGN_OUT_ERROR: {
+    case ActionType.SIGN_OUT_ERROR:
+    case ActionType.SIGN_UP_ERROR: {
       return {
         ...state,
         isLoading: false,
