@@ -8,9 +8,11 @@ import {
 import action from 'app/store/action'
 import notify from 'app/services/notify'
 import {
+  authStateListener,
   signInWithEmailPassword,
+  signOut,
   signUpWithEmailPassword,
-} from 'app/services/emailFirebase'
+} from 'app/services/authFirebase'
 import api from 'app/services/api'
 import { AxiosResponse } from 'axios'
 import ActionType from './types'
@@ -65,10 +67,19 @@ export const updateUser = (
   onSuccess?.()
 }
 
-export const userSignOut = (onSuccess?: () => void): AppThunkAsync => async (
-  dispatch,
-) => {
-  // TODO add here or delete from types SIGN_OUT_BEGIN and SIGN_OUT_ERROR
+export const userSignOut = (
+  onSuccess?: () => void,
+  onError?: (error: IError) => void,
+): AppThunkAsync => async (dispatch) => {
+  dispatch(action(ActionType.SIGN_OUT_BEGIN))
+  try {
+    await signOut()
+    authStateListener()
+  } catch (error) {
+    notify(error)
+    dispatch(action(ActionType.SIGN_OUT_ERROR, error))
+    onError?.(error)
+  }
   dispatch(action(ActionType.SIGN_OUT_SUCCESS))
   onSuccess?.()
 }
