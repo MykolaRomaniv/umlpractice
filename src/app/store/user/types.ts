@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-cycle
-import { IError, IUser } from 'app/types'
+import { IError, ITask, IUser } from 'app/types'
 
 // eslint-disable-next-line no-shadow
 enum ActionType {
@@ -13,6 +13,46 @@ enum ActionType {
   SIGN_OUT_SUCCESS = '[auth] SIGN_OUT_SUCCESS',
   SIGN_OUT_ERROR = '[auth] SIGN_OUT_ERROR',
   UPDATE_USER = '[auth] UPDATE_USER',
+  CREATE_TASK_BEGIN = '[user] CREATE_TASK_BEGIN',
+  CREATE_TASK_SUCCESS = '[user] CREATE_TASK_SUCCESS',
+  CREATE_TASK_ERROR = '[user] CREATE_TASK_ERROR',
+  GET_TASK_BEGIN = '[user] GET_TASK_BEGIN',
+  GET_TASK_SUCCESS = '[user] GET_TASK_SUCCESS',
+  GET_TASK_ERROR = '[user] GET_TASK_ERROR',
+  SELECT_TASK = '[user] SELECT_TASK',
+}
+
+export interface SelectTaskAction {
+  type: ActionType.SELECT_TASK
+  payload: string
+}
+
+export interface GetTaskBeginAction {
+  type: ActionType.GET_TASK_BEGIN
+}
+
+export interface GetTaskSuccessAction {
+  type: ActionType.GET_TASK_SUCCESS
+  payload: ITask[]
+}
+
+export interface GetTaskErrorAction {
+  type: ActionType.GET_TASK_ERROR
+  payload: IError
+}
+
+export interface CreateTaskBeginAction {
+  type: ActionType.CREATE_TASK_BEGIN
+}
+
+export interface CreateTaskSuccessAction {
+  type: ActionType.CREATE_TASK_SUCCESS
+  payload: ITask
+}
+
+export interface CreateTaskErrorAction {
+  type: ActionType.CREATE_TASK_ERROR
+  payload: IError
 }
 
 export interface SignUpBeginAction {
@@ -72,5 +112,12 @@ export type Action =
   | SignOutSuccessAction
   | SignOutErrorAction
   | UpdateUser
+  | CreateTaskBeginAction
+  | CreateTaskBeginAction
+  | CreateTaskErrorAction
+  | GetTaskBeginAction
+  | GetTaskSuccessAction
+  | GetTaskErrorAction
+  | SelectTaskAction
 
 export default ActionType

@@ -5,6 +5,7 @@ export const isObject = (
 }
 
 // TODO better typing
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const deepEqual = (object1: any, object2: any): boolean => {
   const keys1 = Object.keys(object1)
   const keys2 = Object.keys(object2)

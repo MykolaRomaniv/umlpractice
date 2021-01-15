@@ -26,10 +26,17 @@ import Button from '@material-ui/core/Button'
 import { WithStyles, withStyles } from '@material-ui/core/styles'
 import { enableRipple } from '@syncfusion/ej2-base'
 import { RouteComponentProps } from 'react-router-dom'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
+import classnames from 'classnames'
 
 import { deepEqual } from 'app/services/utils'
-import styles from './styles.module.scss'
+import { ReduxState } from 'app/types'
+import { AllAction } from 'app/store/action'
+import userActions from 'app/store/user/actions'
+import TextField from '@material-ui/core/TextField'
 import materialCss from './materialCss'
+import styles from './styles.module.scss'
 
 enableRipple(true)
 
@@ -188,12 +195,14 @@ const download = (data: string | undefined) => {
   }
 }
 
-const getDiagram = (data: string | undefined) => {
+const getDiagram = (data: string | undefined): any => {
   if (data) {
     const diagramObj = JSON.parse(data)
     console.log(diagramObj.connectors)
     console.log(diagramObj.nodes)
+    return diagramObj
   }
+  return null
 }
 
 // Load the diagraming object.
@@ -211,8 +220,6 @@ const onUploadSuccess = (args: any) => {
   reader.readAsText(file)
   reader.onloadend = loadDiagram
 }
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 const compareNodes = (firstNode: NodeModel, secondNode: NodeModel): boolean => {
   if (firstNode.shape && secondNode.shape) {
     return deepEqual(firstNode.shape, secondNode.shape)
@@ -220,21 +227,32 @@ const compareNodes = (firstNode: NodeModel, secondNode: NodeModel): boolean => {
   return false
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-const compareConnection = (
-  firstConnection: ConnectorModel,
-  secondConnection: ConnectorModel,
-) => {
-  return (
-    firstConnection.type === secondConnection.type &&
-    deepEqual(firstConnection.shape, secondConnection.shape)
-  )
-}
+// const compareConnection = (
+//   firstConnection: ConnectorModel,
+//   secondConnection: ConnectorModel,
+// ) => {
+//   return (
+//     firstConnection.type === secondConnection.type &&
+//     deepEqual(firstConnection.shape, secondConnection.shape)
+//   )
+// }
 
 // const compareWithEtalon = (): boolean => {}
 
-type IProps = RouteComponentProps & WithStyles<typeof materialCss>
+const mapStateToProps = (state: ReduxState) => ({
+  userType: state.user.userData?.type,
+  currentTask: state.user.currentTask,
+})
+
+const mapDispatchToProps = (dispatch: Dispatch<AllAction>) => ({
+  actions: bindActionCreators(userActions, dispatch),
+})
+
+const reduxConnector = connect(mapStateToProps, mapDispatchToProps)
+
+type IProps = RouteComponentProps &
+  WithStyles<typeof materialCss> &
+  ConnectedProps<typeof reduxConnector>
 
 interface IState {
   points: number
@@ -242,6 +260,9 @@ interface IState {
   connectorCount: number
   nodes: NodeModel[]
   connectors: ConnectorModel[]
+  description: string
+  taskName: string
+  // correctNodes: number
 }
 
 class UMLClassDiagram extends React.PureComponent<IProps, IState> {
@@ -253,6 +274,9 @@ class UMLClassDiagram extends React.PureComponent<IProps, IState> {
       connectorCount: 0,
       nodes: [],
       connectors: [],
+      description: '',
+      taskName: '',
+      // correctNodes: 0,
     }
   }
 
@@ -261,8 +285,38 @@ class UMLClassDiagram extends React.PureComponent<IProps, IState> {
     history.goBack()
   }
 
-  onCheckResult = () => {
-    getDiagram(diagramInstance?.saveDiagram())
+  onSendResult = () => {
+    const { userType, actions, currentTask } = this.props
+    const { description, taskName, nodes, connectors } = this.state
+    const diagram = getDiagram(diagramInstance?.saveDiagram())
+    let correctNodes = 0
+    // const correctConnections = 0
+
+    console.log(diagram)
+    if (userType === 'student') {
+      nodes.forEach((userNode) => {
+        if (
+          currentTask?.nodes.find((taskNode) =>
+            compareNodes(taskNode, userNode),
+          )
+        ) {
+          correctNodes += 1
+        }
+      })
+      this.setState({ points: correctNodes })
+      // compareConnection(, )
+    } else {
+      // TODO pass correct object
+      actions.createTask({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        taskData: diagram as any,
+        description,
+        taskName,
+        type: 'Class',
+        nodes,
+        connectors,
+      })
+    }
   }
 
   getNewNodeId = () => {
@@ -293,9 +347,17 @@ class UMLClassDiagram extends React.PureComponent<IProps, IState> {
     return connector
   }
 
+  onDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ description: event.target.value })
+  }
+
+  onTaskNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ taskName: event.target.value })
+  }
+
   render() {
-    const { classes } = this.props
-    const { points } = this.state
+    const { classes, userType, currentTask } = this.props
+    const { points, description, taskName } = this.state
 
     return (
       <div>
@@ -350,7 +412,7 @@ class UMLClassDiagram extends React.PureComponent<IProps, IState> {
                   id="class"
                   aria-label="Btn"
                   type="button"
-                  className={styles.btn}
+                  className={classnames([styles.btn])}
                   onClick={() => {
                     diagramInstance?.add(
                       createClass(
@@ -546,21 +608,43 @@ class UMLClassDiagram extends React.PureComponent<IProps, IState> {
           <Typography variant="h3" gutterBottom>
             {'Опис завдання'}
           </Typography>
-          <Typography variant="body1">
-            {
-              'Великий і скучний опис завдання. \n Lorem, ipsum dolor sit amet consectetur adipisicing elit. Explicabo, quae inventore. Animi cum rerum veniam, eius repudiandae, excepturi.'
-            }
-          </Typography>
-          <Typography variant="subtitle2" className={classes.points}>
-            {`Оцінка ${points}/5`}
-          </Typography>
+          {userType === 'student' ? (
+            <Typography variant="body1">{currentTask?.description}</Typography>
+          ) : (
+            <TextField
+              id="outlined-multiline-static"
+              label="Опис"
+              multiline
+              rows={4}
+              placeholder="Опис завдання"
+              variant="outlined"
+              value={description}
+              onChange={this.onDescriptionChange}
+              className={classes.descriptionTextField}
+            />
+          )}
+          {userType === 'student' ? (
+            <Typography variant="subtitle2" className={classes.points}>
+              {`Оцінка ${(points * 100) / 5}%`}
+            </Typography>
+          ) : (
+            <TextField
+              id="outlined-multiline-static"
+              label="Назва"
+              placeholder="Назва завдання"
+              variant="outlined"
+              value={taskName}
+              onChange={this.onTaskNameChange}
+              className={classes.descriptionTextField}
+            />
+          )}
           <div className={styles.buttonWrapper}>
             <Button
               variant="contained"
               color="primary"
-              onClick={this.onCheckResult}
+              onClick={this.onSendResult}
             >
-              {'Здати'}
+              {'Відправити'}
             </Button>
             <Button variant="contained" color="default" onClick={this.onGoBack}>
               {'Повернутись'}
@@ -572,4 +656,4 @@ class UMLClassDiagram extends React.PureComponent<IProps, IState> {
   }
 }
 
-export default withStyles(materialCss)(UMLClassDiagram)
+export default reduxConnector(withStyles(materialCss)(UMLClassDiagram))

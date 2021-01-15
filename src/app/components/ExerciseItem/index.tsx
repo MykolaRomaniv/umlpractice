@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 import React from 'react'
 
 import Container from '@material-ui/core/Container'
@@ -10,7 +11,9 @@ import ListItemLink from 'app/components/ListItemLink'
 import routes from 'app/constants/routes'
 import useStyles from './styles'
 
-type IProps = IExerciseItem
+interface IProps extends IExerciseItem {
+  onSelect?: (task: string) => void
+}
 
 const createExerciseLink = (type: ExerciseType) => {
   switch (type) {
@@ -31,8 +34,13 @@ const ExerciseItem = ({
   deadline,
   type,
   buttonText,
+  onSelect,
 }: IProps): JSX.Element => {
   const classes = useStyles()
+
+  const onSelectHandle = () => {
+    onSelect?.(name)
+  }
 
   return (
     <ListItemLink
@@ -72,7 +80,7 @@ const ExerciseItem = ({
           to={`/${createExerciseLink(type)}`}
           variant="body2"
         >
-          <Button variant="contained" color="primary">
+          <Button variant="contained" color="primary" onClick={onSelectHandle}>
             {buttonText || 'Виконати'}
           </Button>
         </Link>

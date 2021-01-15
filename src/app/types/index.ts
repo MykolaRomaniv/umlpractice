@@ -6,6 +6,7 @@ import { Action } from 'redux'
 import { AllActionType } from 'app/store/action'
 // eslint-disable-next-line import/no-cycle
 import rootReducer from 'app/store'
+import { ConnectorModel, NodeModel } from '@syncfusion/ej2-react-diagrams'
 
 interface IBackendError {
   data?: {
@@ -51,4 +52,13 @@ export interface IUser {
   id: number | string
   name: string
   email: string
+}
+
+export interface ITask {
+  taskData: { nodes: NodeModel[]; connectors: ConnectorModel[] }
+  description: string
+  taskName: string
+  type: ExerciseType
+  nodes: any[]
+  connectors: any[]
 }

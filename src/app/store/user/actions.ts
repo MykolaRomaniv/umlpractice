@@ -3,6 +3,7 @@ import {
   IError,
   ISignInData,
   ISignUpData,
+  ITask,
   IUser,
 } from 'app/types'
 import action from 'app/store/action'
@@ -84,9 +85,54 @@ export const userSignOut = (
   onSuccess?.()
 }
 
+export const createTask = (
+  data: ITask,
+  onSuccess?: (task: ITask) => void,
+  onError?: (error: IError) => void,
+): AppThunkAsync => async (dispatch) => {
+  dispatch(action(ActionType.CREATE_TASK_BEGIN))
+  try {
+    await api.post('tasks.json', data)
+  } catch (error) {
+    notify(error)
+    dispatch(action(ActionType.CREATE_TASK_ERROR, error))
+    onError?.(error)
+  }
+  dispatch(action(ActionType.CREATE_TASK_SUCCESS))
+  onSuccess?.(data)
+}
+
+export const getTasks = (
+  onSuccess?: (taskObj: ITask[]) => void,
+  onError?: (error: IError) => void,
+): AppThunkAsync => async (dispatch) => {
+  dispatch(action(ActionType.GET_TASK_BEGIN))
+  try {
+    const res: AxiosResponse<ITask[]> = await api.get('tasks.json')
+    const tasks = Object.values(res.data)
+    dispatch(action(ActionType.GET_TASK_SUCCESS, tasks))
+    onSuccess?.(tasks)
+  } catch (error) {
+    notify(error)
+    dispatch(action(ActionType.GET_TASK_ERROR, error))
+    onError?.(error)
+  }
+}
+
+export const selectTask = (
+  taskName: string,
+  onSuccess?: () => void,
+): AppThunkAsync => async (dispatch) => {
+  dispatch(action(ActionType.SELECT_TASK, taskName))
+  onSuccess?.()
+}
+
 export default {
   userSignUp,
   userSignIn,
   updateUser,
   userSignOut,
+  createTask,
+  getTasks,
+  selectTask,
 }
