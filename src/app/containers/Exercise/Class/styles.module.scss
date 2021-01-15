@@ -1,16 +1,33 @@
+// TODO refactor in hierarchical structure
 .contentWrapper {
   display: flex;
+
+  .palette {
+    flex: 1;
+
+    .paletteSection {
+      margin-bottom: 15px;
+
+      .btn {
+        width: 50%;
+        height: 100px;
+      }
+    }
+  }
 }
 
-.palette {
-  flex: 1;
+.uploaderComponent {
+  display: none;
 }
 
-.btn {
-  width: 50%;
-  height: 100px;
+.taskDescription {
+  margin-top: 5%;
+  margin-bottom: 5%;
 }
 
-.paletteSection {
-  margin-bottom: 15px;
+.buttonWrapper {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-around;
 }
