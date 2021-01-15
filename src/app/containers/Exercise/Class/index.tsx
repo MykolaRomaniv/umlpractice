@@ -4,7 +4,6 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-return-assign */
 import * as React from 'react'
-
 import {
   DiagramComponent,
   // Diagram,
@@ -21,9 +20,17 @@ import {
 } from '@syncfusion/ej2-react-diagrams'
 import { ToolbarComponent } from '@syncfusion/ej2-react-navigations'
 import { UploaderComponent } from '@syncfusion/ej2-react-inputs'
+import Typography from '@material-ui/core/Typography'
+import Container from '@material-ui/core/Container'
+import Button from '@material-ui/core/Button'
+import { WithStyles, withStyles } from '@material-ui/core/styles'
+import { enableRipple } from '@syncfusion/ej2-base'
 
-import SampleBase from '../sample-base'
+import { RouteComponentProps } from 'react-router-dom'
 import styles from './styles.module.scss'
+import materialCss from './materialCss'
+
+enableRipple(true)
 
 let diagramInstance: DiagramComponent | null
 
@@ -208,198 +215,251 @@ function onUploadSuccess(args: any) {
   reader.onloadend = loadDiagram
 }
 
-export default class UMLClassDiagram extends SampleBase {
-  // eslint-disable-next-line class-methods-use-this
-  rendereComplete() {
-    diagramInstance?.fitToPage()
+type IProps = RouteComponentProps & WithStyles<typeof materialCss>
+
+interface IState {
+  points: number
+}
+
+class UMLClassDiagram extends React.PureComponent<IProps, IState> {
+  constructor(props: IProps) {
+    super(props)
+    this.state = {
+      // eslint-disable-next-line react/no-unused-state
+      points: 0,
+    }
+  }
+
+  onGoBack = () => {
+    const { history } = this.props
+    history.goBack()
   }
 
   render() {
+    const { classes } = this.props
+    const { points } = this.state
+
     return (
-      <div className="control-section">
-        <ToolbarComponent
-          id="toolbar_diagram"
-          style={{ width: '100%', height: '10%', marginTop: '10px' }}
-          clicked={(args) => {
-            if (args?.item.text === 'New') {
-              diagramInstance?.clear()
-            } else if (args?.item.text === 'Load') {
-              document
-                ?.getElementsByClassName('e-file-select-wrap')[0]
-                ?.querySelector('button')
-                ?.click()
-            } else if (args?.item.id === 'palette-icon') {
-              openPalette()
-            } else {
-              download(diagramInstance?.saveDiagram())
-            }
-          }}
-          items={[
-            {
-              id: 'palette-icon',
-              prefixIcon: 'e-ddb-icons2 e-toggle-palette',
-              align: 'Right',
-            },
-            {
-              text: 'New',
-              tooltipText: 'New',
-              prefixIcon: 'e-diagram-icons e-diagram-new',
-            },
-            { type: 'Separator' },
-            {
-              text: 'Save',
-              tooltipText: 'Save',
-              prefixIcon: 'e-diagram-icons e-diagram-save',
-            },
-            { type: 'Separator' },
-            {
-              text: 'Load',
-              tooltipText: 'Load',
-              prefixIcon: 'e-diagram-icons e-diagram-open',
-            },
-          ]}
-        />
-        <div className={styles.contentWrapper}>
-          <div className={styles.palette}>
-            <div className={styles.paletteSection}>
-              <button
-                id="class"
-                aria-label="Btn"
-                type="button"
-                className={styles.btn}
-                onClick={() => {
-                  diagramInstance?.add(
-                    createClass(Date(), 100, 100, 'ClassName'),
-                  )
-                }}
-              >
-                <div>{'Class'}</div>
-              </button>
-              <button
-                id="interface"
-                aria-label="Btn"
-                type="button"
-                className={styles.btn}
-                onClick={() => {
-                  diagramInstance?.add(
-                    createInterface(Date(), 100, 100, 'InterfaceName'),
-                  )
-                }}
-              >
-                <div>{'Interface'}</div>
-              </button>
-              <button
-                id="enumeration"
-                aria-label="Btn"
-                type="button"
-                className={styles.btn}
-                onClick={() => {
-                  diagramInstance?.add(
-                    createEnumeration(Date(), 100, 100, 'EnumName'),
-                  )
-                }}
-              >
-                <div>{'Enum'}</div>
-              </button>
-            </div>
-            <div className={styles.paletteSection}>
-              <button
-                id="association"
-                aria-label="Btn"
-                type="button"
-                className={styles.btn}
-                onClick={() => {
-                  diagramInstance?.add(createConnection(Date(), 'Association'))
-                }}
-              >
-                <div>{'Association'}</div>
-              </button>
-              <button
-                id="aggregation"
-                aria-label="Btn"
-                type="button"
-                className={styles.btn}
-                onClick={() => {
-                  diagramInstance?.add(createConnection(Date(), 'Aggregation'))
-                }}
-              >
-                <div>{'Aggregation'}</div>
-              </button>
-              <button
-                id="composition"
-                aria-label="Btn"
-                type="button"
-                className={styles.btn}
-                onClick={() => {
-                  diagramInstance?.add(createConnection(Date(), 'Composition'))
-                }}
-              >
-                <div>{'Composition'}</div>
-              </button>
-              <button
-                id="dependency"
-                aria-label="Btn"
-                type="button"
-                className={styles.btn}
-                onClick={() => {
-                  diagramInstance?.add(createConnection(Date(), 'Dependency'))
-                }}
-              >
-                <div>{'Dependency'}</div>
-              </button>
-              <button
-                id="inheritance"
-                aria-label="Btn"
-                type="button"
-                className={styles.btn}
-                onClick={() => {
-                  diagramInstance?.add(createConnection(Date(), 'Inheritance'))
-                }}
-              >
-                <div>{'Inheritance'}</div>
-              </button>
-            </div>
-          </div>
-          <DiagramComponent
-            id="diagram"
-            width="85%"
-            height="700px"
-            ref={(diagram) => (diagramInstance = diagram)}
-            connectors={connectors}
-            // Sets the default values of a node
-            getNodeDefaults={(obj: NodeModel) => {
-              obj.style = { fill: '#26A0DA', strokeColor: 'white' }
-              return obj
-            }}
-            // Sets the default values of a connector
-            getConnectorDefaults={(connector: ConnectorModel) => {
-              return connector
-            }}
-            // set an label style for nodes
-            setNodeTemplate={(node: NodeModel) => {
-              if (node.annotations && node.annotations.length > 0) {
-                for (let i = 0; i < node.annotations.length; i++) {
-                  const annotation: ShapeAnnotationModel = node.annotations[i]
-                  if (annotation && annotation.style) {
-                    annotation.style.color = 'white'
-                  }
-                }
+      <div>
+        <div className="control-section">
+          <ToolbarComponent
+            id="toolbar_diagram"
+            style={{ width: '100%', height: '10%', marginTop: '10px' }}
+            clicked={(args) => {
+              if (args?.item.text === 'New') {
+                diagramInstance?.clear()
+              } else if (args?.item.text === 'Load') {
+                document
+                  ?.getElementsByClassName('e-file-select-wrap')[0]
+                  ?.querySelector('button')
+                  ?.click()
+              } else if (args?.item.id === 'palette-icon') {
+                openPalette()
+              } else {
+                download(diagramInstance?.saveDiagram())
               }
             }}
+            items={[
+              {
+                id: 'palette-icon',
+                prefixIcon: 'e-ddb-icons2 e-toggle-palette',
+                align: 'Right',
+              },
+              {
+                text: 'New',
+                tooltipText: 'New',
+                prefixIcon: 'e-diagram-icons e-diagram-new',
+              },
+              { type: 'Separator' },
+              {
+                text: 'Save',
+                tooltipText: 'Save',
+                prefixIcon: 'e-diagram-icons e-diagram-save',
+              },
+              { type: 'Separator' },
+              {
+                text: 'Load',
+                tooltipText: 'Load',
+                prefixIcon: 'e-diagram-icons e-diagram-open',
+              },
+            ]}
           />
+          <div className={styles.contentWrapper}>
+            <div className={styles.palette}>
+              <div className={styles.paletteSection}>
+                <button
+                  id="class"
+                  aria-label="Btn"
+                  type="button"
+                  className={styles.btn}
+                  onClick={() => {
+                    diagramInstance?.add(
+                      createClass(Date(), 100, 100, 'ClassName'),
+                    )
+                  }}
+                >
+                  <div>{'Class'}</div>
+                </button>
+                <button
+                  id="interface"
+                  aria-label="Btn"
+                  type="button"
+                  className={styles.btn}
+                  onClick={() => {
+                    diagramInstance?.add(
+                      createInterface(Date(), 100, 100, 'InterfaceName'),
+                    )
+                  }}
+                >
+                  <div>{'Interface'}</div>
+                </button>
+                <button
+                  id="enumeration"
+                  aria-label="Btn"
+                  type="button"
+                  className={styles.btn}
+                  onClick={() => {
+                    diagramInstance?.add(
+                      createEnumeration(Date(), 100, 100, 'EnumName'),
+                    )
+                  }}
+                >
+                  <div>{'Enum'}</div>
+                </button>
+              </div>
+              <div className={styles.paletteSection}>
+                <button
+                  id="association"
+                  aria-label="Btn"
+                  type="button"
+                  className={styles.btn}
+                  onClick={() => {
+                    diagramInstance?.add(
+                      createConnection(Date(), 'Association'),
+                    )
+                  }}
+                >
+                  <div>{'Association'}</div>
+                </button>
+                <button
+                  id="aggregation"
+                  aria-label="Btn"
+                  type="button"
+                  className={styles.btn}
+                  onClick={() => {
+                    diagramInstance?.add(
+                      createConnection(Date(), 'Aggregation'),
+                    )
+                  }}
+                >
+                  <div>{'Aggregation'}</div>
+                </button>
+                <button
+                  id="composition"
+                  aria-label="Btn"
+                  type="button"
+                  className={styles.btn}
+                  onClick={() => {
+                    diagramInstance?.add(
+                      createConnection(Date(), 'Composition'),
+                    )
+                  }}
+                >
+                  <div>{'Composition'}</div>
+                </button>
+                <button
+                  id="dependency"
+                  aria-label="Btn"
+                  type="button"
+                  className={styles.btn}
+                  onClick={() => {
+                    diagramInstance?.add(createConnection(Date(), 'Dependency'))
+                  }}
+                >
+                  <div>{'Dependency'}</div>
+                </button>
+                <button
+                  id="inheritance"
+                  aria-label="Btn"
+                  type="button"
+                  className={styles.btn}
+                  onClick={() => {
+                    diagramInstance?.add(
+                      createConnection(Date(), 'Inheritance'),
+                    )
+                  }}
+                >
+                  <div>{'Inheritance'}</div>
+                </button>
+              </div>
+            </div>
+            <DiagramComponent
+              id="diagram"
+              width="85%"
+              height="700px"
+              ref={(diagram) => (diagramInstance = diagram)}
+              connectors={connectors}
+              // Sets the default values of a node
+              getNodeDefaults={(obj: NodeModel) => {
+                obj.style = { fill: '#26A0DA', strokeColor: 'white' }
+                return obj
+              }}
+              // Sets the default values of a connector
+              getConnectorDefaults={(connector: ConnectorModel) => {
+                return connector
+              }}
+              // set an label style for nodes
+              setNodeTemplate={(node: NodeModel) => {
+                if (node.annotations && node.annotations.length > 0) {
+                  for (let i = 0; i < node.annotations.length; i++) {
+                    const annotation: ShapeAnnotationModel = node.annotations[i]
+                    if (annotation && annotation.style) {
+                      annotation.style.color = 'white'
+                    }
+                  }
+                }
+              }}
+            />
+          </div>
+          <div className={styles.uploaderComponent}>
+            <UploaderComponent
+              type="file"
+              id="fileupload"
+              asyncSettings={{
+                saveUrl:
+                  'https://aspnetmvc.syncfusion.com/services/api/uploadbox/Save',
+                removeUrl:
+                  'https://aspnetmvc.syncfusion.com/services/api/uploadbox/Remove',
+              }}
+              success={onUploadSuccess}
+            />
+          </div>
         </div>
-        <UploaderComponent
-          type="file"
-          id="fileupload"
-          asyncSettings={{
-            saveUrl:
-              'https://aspnetmvc.syncfusion.com/services/api/uploadbox/Save',
-            removeUrl:
-              'https://aspnetmvc.syncfusion.com/services/api/uploadbox/Remove',
-          }}
-          success={onUploadSuccess}
-        />
+
+        <Container maxWidth="sm" className={styles.taskDescription}>
+          <Typography variant="h3" gutterBottom>
+            {'Опис завдання'}
+          </Typography>
+          <Typography variant="body1">
+            {
+              'Великий і скучний опис завдання. \n Lorem, ipsum dolor sit amet consectetur adipisicing elit. Explicabo, quae inventore. Animi cum rerum veniam, eius repudiandae, excepturi.'
+            }
+          </Typography>
+          <Typography variant="subtitle2" className={classes.points}>
+            {`Оцінка ${points}/5`}
+          </Typography>
+          <div className={styles.buttonWrapper}>
+            <Button variant="contained" color="primary" onClick={this.onGoBack}>
+              {'Здати'}
+            </Button>
+            <Button variant="contained" color="default" onClick={this.onGoBack}>
+              {'Повернутись'}
+            </Button>
+          </div>
+        </Container>
       </div>
     )
   }
 }
+
+export default withStyles(materialCss)(UMLClassDiagram)
