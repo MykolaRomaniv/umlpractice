@@ -25,10 +25,22 @@ const reducer = (state = initialState, action: Action): IState => {
     case ActionType.SIGN_OUT_BEGIN:
     case ActionType.SIGN_UP_BEGIN:
     case ActionType.CREATE_TASK_BEGIN:
-    case ActionType.GET_TASK_BEGIN: {
+    case ActionType.GET_TASK_BEGIN:
+    case ActionType.MOVE_TASK_TO_DONE_BEGIN: {
       return {
         ...state,
         isLoading: true,
+      }
+    }
+    case ActionType.MOVE_TASK_TO_DONE_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+        error: '',
+        userData: {
+          ...state.userData,
+          doneTasks: action.payload,
+        } as IUser,
       }
     }
     case ActionType.SIGN_UP_SUCCESS: {

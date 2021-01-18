@@ -12,14 +12,31 @@ enum ActionType {
   SIGN_OUT_BEGIN = '[auth] SIGN_OUT_BEGIN',
   SIGN_OUT_SUCCESS = '[auth] SIGN_OUT_SUCCESS',
   SIGN_OUT_ERROR = '[auth] SIGN_OUT_ERROR',
-  UPDATE_USER = '[auth] UPDATE_USER',
   CREATE_TASK_BEGIN = '[user] CREATE_TASK_BEGIN',
   CREATE_TASK_SUCCESS = '[user] CREATE_TASK_SUCCESS',
   CREATE_TASK_ERROR = '[user] CREATE_TASK_ERROR',
   GET_TASK_BEGIN = '[user] GET_TASK_BEGIN',
   GET_TASK_SUCCESS = '[user] GET_TASK_SUCCESS',
   GET_TASK_ERROR = '[user] GET_TASK_ERROR',
+  MOVE_TASK_TO_DONE_BEGIN = '[user] MOVE_TASK_TO_DONE_BEGIN',
+  MOVE_TASK_TO_DONE_SUCCESS = '[user] MOVE_TASK_TO_DONE_SUCCESS',
+  MOVE_TASK_TO_DONE_ERROR = '[user] MOVE_TASK_TO_DONE_ERROR',
   SELECT_TASK = '[user] SELECT_TASK',
+  UPDATE_USER = '[auth] UPDATE_USER',
+}
+
+export interface MoveTaskToDoneBeginAction {
+  type: ActionType.MOVE_TASK_TO_DONE_BEGIN
+}
+
+export interface MoveTaskToDoneSuccessAction {
+  type: ActionType.MOVE_TASK_TO_DONE_SUCCESS
+  payload: ITask[]
+}
+
+export interface MoveTaskToDoneErrorAction {
+  type: ActionType.MOVE_TASK_TO_DONE_ERROR
+  payload: IError
 }
 
 export interface SelectTaskAction {
@@ -119,5 +136,8 @@ export type Action =
   | GetTaskSuccessAction
   | GetTaskErrorAction
   | SelectTaskAction
+  | MoveTaskToDoneBeginAction
+  | MoveTaskToDoneSuccessAction
+  | MoveTaskToDoneErrorAction
 
 export default ActionType

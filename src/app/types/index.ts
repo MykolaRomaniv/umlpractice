@@ -47,13 +47,6 @@ export type AppThunkAsync<ReturnType = unknown> = ThunkAction<
   Action<AllActionType>
 >
 
-export interface IUser {
-  type: IUserType
-  id: number | string
-  name: string
-  email: string
-}
-
 export interface ITask {
   taskData: { nodes: NodeModel[]; connectors: ConnectorModel[] }
   description: string
@@ -61,4 +54,13 @@ export interface ITask {
   type: ExerciseType
   nodes: NodeModel[]
   connectors: ConnectorModel[]
+}
+
+export interface IUser {
+  type: IUserType
+  id: number | string
+  name: string
+  email: string
+  dbId?: string
+  doneTasks?: ITask[]
 }

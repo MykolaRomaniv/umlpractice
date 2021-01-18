@@ -42,6 +42,7 @@ export const userSignIn = (
   onSuccess?: () => void,
   onError?: (e: IError) => void,
 ): AppThunkAsync<ISignInData | undefined> => async (dispatch) => {
+  // const state = getState().user.
   dispatch(action(ActionType.SIGN_IN_BEGIN))
   try {
     const res = await signInWithEmailPassword(data.email, data.password)
@@ -51,6 +52,13 @@ export const userSignIn = (
     const user = Object.values(users.data).find(
       (userObj) => userObj.id === res.user?.uid,
     )
+    const userDbData = users.data
+    // eslint-disable-next-line no-restricted-syntax
+    for (const property in userDbData) {
+      if (userDbData[property].id === user?.id) {
+        user.dbId = property
+      }
+    }
     dispatch(action(ActionType.SIGN_IN_SUCCESS, user))
     onSuccess?.()
   } catch (error) {
@@ -127,6 +135,28 @@ export const selectTask = (
   onSuccess?.()
 }
 
+export const moveToDone = (
+  task: ITask,
+  onSuccess?: (user: IUser) => void,
+  onError?: (error: IError) => void,
+): AppThunkAsync => async (dispatch, getState) => {
+  dispatch(action(ActionType.MOVE_TASK_TO_DONE_BEGIN))
+  try {
+    const user = getState().user.userData
+    if (!user?.dbId) {
+      throw new Error('Can`t find user')
+    }
+    const doneTasks = user.doneTasks ? [...user.doneTasks, task] : [task]
+    await api.post(`users/${user?.dbId}/doneTasks.json`, doneTasks)
+    dispatch(action(ActionType.MOVE_TASK_TO_DONE_SUCCESS, doneTasks))
+    onSuccess?.(user)
+  } catch (error) {
+    notify(error)
+    dispatch(action(ActionType.MOVE_TASK_TO_DONE_ERROR, error))
+    onError?.(error)
+  }
+}
+
 export default {
   userSignUp,
   userSignIn,
@@ -135,4 +165,5 @@ export default {
   createTask,
   getTasks,
   selectTask,
+  moveToDone,
 }
