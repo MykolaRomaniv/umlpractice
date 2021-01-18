@@ -90,15 +90,17 @@ const NavBar = ({
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            onClick={toggleDrawer(true)}
-            className={classes.menuButton}
-          >
-            <MenuIcon />
-          </IconButton>
+          {userType && (
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              onClick={toggleDrawer(true)}
+              className={classes.menuButton}
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
           <Typography variant="h6" className={classes.title}>
             {'Архітектура ПЗ (лабораторні)'}
           </Typography>
@@ -116,30 +118,32 @@ const NavBar = ({
           </Link>
         </Toolbar>
       </AppBar>
-      <Drawer open={isDrawer} onClose={toggleDrawer(false)}>
-        <List>
-          {navItems?.map((item) => (
-            <ListItemLink
-              key={item.text}
-              to={`/${item.link}`}
-              button
-              onClick={toggleDrawer(false)}
-            >
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItemLink>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          <ListItem button key="about">
-            <ListItemIcon>
-              <MailIcon />
-            </ListItemIcon>
-            <ListItemText primary="Про нас" />
-          </ListItem>
-        </List>
-      </Drawer>
+      {userType && (
+        <Drawer open={isDrawer} onClose={toggleDrawer(false)}>
+          <List>
+            {navItems?.map((item) => (
+              <ListItemLink
+                key={item.text}
+                to={`/${item.link}`}
+                button
+                onClick={toggleDrawer(false)}
+              >
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.text} />
+              </ListItemLink>
+            ))}
+          </List>
+          <Divider />
+          <List>
+            <ListItem button key="about">
+              <ListItemIcon>
+                <MailIcon />
+              </ListItemIcon>
+              <ListItemText primary="Про нас" />
+            </ListItem>
+          </List>
+        </Drawer>
+      )}
     </div>
   )
 }
