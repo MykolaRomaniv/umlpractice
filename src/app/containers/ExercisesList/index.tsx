@@ -16,12 +16,6 @@ import userActions from 'app/store/user/actions'
 import ExerciseItem from '../../components/ExerciseItem'
 import useStyles from './styles'
 
-// const exercises: IExerciseItem[] | undefined = [
-//   { name: 'Завдання 2', deadline: 'До 15.01 12:00', type: 'Class' },
-//   { name: 'Завдання 3', deadline: 'До 15.01 12:00', type: 'BPMN' },
-//   { name: 'Завдання 4', deadline: 'До 15.01 12:00', type: 'Flow' },
-// ]
-
 const mapStateToProps = (state: ReduxState) => ({
   userType: state.user.userData?.type,
   tasks: state.user.tasks,
