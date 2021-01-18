@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 export const isObject = (
   object: Record<string, unknown> | unknown,
 ): boolean => {
@@ -5,13 +7,20 @@ export const isObject = (
 }
 
 // TODO better typing
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const deepEqual = (object1: any, object2: any): boolean => {
+export const deepEqual = (
+  object1: any,
+  object2: any,
+  useKeyLength?: boolean,
+): boolean => {
+  // eslint-disable-next-line no-debugger
+  // debugger
   const keys1 = Object.keys(object1)
-  const keys2 = Object.keys(object2)
+  if (useKeyLength) {
+    const keys2 = Object.keys(object2)
 
-  if (keys1.length !== keys2.length) {
-    return false
+    if (keys1.length !== keys2.length) {
+      return false
+    }
   }
 
   // eslint-disable-next-line no-restricted-syntax
@@ -20,7 +29,7 @@ export const deepEqual = (object1: any, object2: any): boolean => {
     const val2 = object2[key]
     const areObjects = isObject(val1) && isObject(val2)
     if (
-      (areObjects && !deepEqual(val1, val2)) ||
+      (areObjects && !deepEqual(val1, val2, useKeyLength)) ||
       (!areObjects && val1 !== val2)
     ) {
       return false

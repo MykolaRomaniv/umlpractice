@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable no-param-reassign */
 /* eslint-disable @typescript-eslint/ban-types */
@@ -25,6 +26,7 @@ import Container from '@material-ui/core/Container'
 import Button from '@material-ui/core/Button'
 import { WithStyles, withStyles } from '@material-ui/core/styles'
 import { enableRipple } from '@syncfusion/ej2-base'
+import TextField from '@material-ui/core/TextField'
 import { RouteComponentProps } from 'react-router-dom'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
@@ -34,7 +36,13 @@ import { deepEqual } from 'app/services/utils'
 import { ReduxState } from 'app/types'
 import { AllAction } from 'app/store/action'
 import userActions from 'app/store/user/actions'
-import TextField from '@material-ui/core/TextField'
+import Aggregation_Ico from '../../../../assets/Aggregation_Ico.png'
+import Association_Ico from '../../../../assets/Association_Ico.png'
+import Composition_Ico from '../../../../assets/Composition_Ico.png'
+import Dependency_Ico from '../../../../assets/Dependency_Ico.png'
+import Extension_Ico from '../../../../assets/Extension_Ico.png'
+// import Extension_Ico from '../../../../assets/Extension_Ico'
+
 import materialCss from './materialCss'
 import styles from './styles.module.scss'
 
@@ -195,11 +203,12 @@ const download = (data: string | undefined) => {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getDiagram = (data: string | undefined): any => {
   if (data) {
     const diagramObj = JSON.parse(data)
-    console.log(diagramObj.connectors)
-    console.log(diagramObj.nodes)
+    // console.log(diagramObj.connectors)
+    // console.log(diagramObj.nodes)
     return diagramObj
   }
   return null
@@ -219,12 +228,6 @@ const onUploadSuccess = (args: any) => {
   const reader = new FileReader()
   reader.readAsText(file)
   reader.onloadend = loadDiagram
-}
-const compareNodes = (firstNode: NodeModel, secondNode: NodeModel): boolean => {
-  if (firstNode.shape && secondNode.shape) {
-    return deepEqual(firstNode.shape, secondNode.shape)
-  }
-  return false
 }
 
 // const compareConnection = (
@@ -285,26 +288,77 @@ class UMLClassDiagram extends React.PureComponent<IProps, IState> {
     history.goBack()
   }
 
-  onSendResult = () => {
-    const { userType, actions, currentTask } = this.props
-    const { description, taskName, nodes, connectors } = this.state
-    const diagram = getDiagram(diagramInstance?.saveDiagram())
-    let correctNodes = 0
-    // const correctConnections = 0
+  getMaxPoints = () => {
+    const { currentTask } = this.props
+    return currentTask
+      ? currentTask.nodes.length + currentTask.connectors.length
+      : 1
+  }
 
-    console.log(diagram)
-    if (userType === 'student') {
-      nodes.forEach((userNode) => {
-        if (
-          currentTask?.nodes.find((taskNode) =>
-            compareNodes(taskNode, userNode),
-          )
-        ) {
-          correctNodes += 1
+  // compareNodes = (): number => {
+  //   const { nodes } = this.state
+  //   const { currentTask } = this.props
+  //   if (currentTask) {
+  //     let etalonNodes = [...currentTask.nodes]
+  //     let correctNodes = 0
+  //     nodes.forEach((userNode) => {
+  //       const foundNode = etalonNodes.find((taskNode) =>
+  //         deepEqual(taskNode.shape, userNode.shape),
+  //       )
+  //       if (foundNode) {
+  //         etalonNodes = etalonNodes.filter((node) => node.id !== foundNode.id)
+  //         correctNodes += 1
+  //       }
+  //     })
+  //     return correctNodes
+  //   }
+  //   return 0
+  // }
+
+  compare = (type: 'nodes' | 'connectors'): number => {
+    const { connectors, nodes } = this.state
+    const { currentTask } = this.props
+    if (currentTask) {
+      const comparator: Array<NodeModel | ConnectorModel> =
+        type === 'nodes' ? nodes : connectors
+      let etalon: Array<NodeModel | ConnectorModel> =
+        type === 'nodes' ? [...currentTask.nodes] : [...currentTask.connectors]
+      let correctAnswers = 0
+      comparator.forEach((userAnswer) => {
+        const found = etalon.find((taskAnswer) =>
+          deepEqual(taskAnswer.shape, userAnswer.shape),
+        )
+        if (found) {
+          etalon = etalon.filter((el) => el.id !== found.id)
+          correctAnswers += 1
         }
       })
-      this.setState({ points: correctNodes })
-      // compareConnection(, )
+      return correctAnswers
+    }
+    return 0
+  }
+
+  onSendResult = () => {
+    const { userType, actions } = this.props
+    const { description, taskName, nodes, connectors } = this.state
+    const diagram = getDiagram(diagramInstance?.saveDiagram())
+    // console.log('diagramInstance?.connectors', diagramInstance?.connectors)
+    // console.log(
+    //   'diagramInstance?.getConnectorObject',
+    //   diagramInstance?.getConnectorObject(connectors[0].id || ''),
+    // )
+    if (userType === 'student') {
+      const correctPoints = this.compare('nodes') + this.compare('connectors')
+      // console.log(
+      //   '🚀 ~ file: index.tsx ~ line 348 ~ UMLClassDiagram ~ this.compareNodes()',
+      //   this.compare('nodes'),
+      // )
+      // console.log(
+      //   '🚀 ~ file: index.tsx ~ line 350 ~ UMLClassDiagram ~ this.compareConnectors()',
+      //   this.compare('connectors'),
+      // )
+
+      this.setState({ points: correctPoints })
     } else {
       // TODO pass correct object
       actions.createTask({
@@ -415,13 +469,8 @@ class UMLClassDiagram extends React.PureComponent<IProps, IState> {
                   className={classnames([styles.btn])}
                   onClick={() => {
                     diagramInstance?.add(
-                      createClass(
-                        this.getNewNodeId(),
-                        100,
-                        100,
-                        'ClassName',
-                        undefined,
-                        this.addNode,
+                      this.addNode(
+                        createClass(this.getNewNodeId(), 100, 100, 'ClassName'),
                       ),
                     )
                   }}
@@ -435,13 +484,13 @@ class UMLClassDiagram extends React.PureComponent<IProps, IState> {
                   className={styles.btn}
                   onClick={() => {
                     diagramInstance?.add(
-                      createInterface(
-                        this.getNewNodeId(),
-                        100,
-                        100,
-                        'InterfaceName',
-                        undefined,
-                        this.addNode,
+                      this.addNode(
+                        createInterface(
+                          this.getNewNodeId(),
+                          100,
+                          100,
+                          'InterfaceName',
+                        ),
                       ),
                     )
                   }}
@@ -455,13 +504,13 @@ class UMLClassDiagram extends React.PureComponent<IProps, IState> {
                   className={styles.btn}
                   onClick={() => {
                     diagramInstance?.add(
-                      createEnumeration(
-                        this.getNewNodeId(),
-                        100,
-                        100,
-                        'EnumName',
-                        undefined,
-                        this.addNode,
+                      this.addNode(
+                        createEnumeration(
+                          this.getNewNodeId(),
+                          100,
+                          100,
+                          'EnumName',
+                        ),
                       ),
                     )
                   }}
@@ -486,7 +535,11 @@ class UMLClassDiagram extends React.PureComponent<IProps, IState> {
                     )
                   }}
                 >
-                  <div>{'Association'}</div>
+                  <img
+                    style={{ width: '100%', height: '100%' }}
+                    alt="img"
+                    src={Association_Ico}
+                  />
                 </button>
                 <button
                   id="aggregation"
@@ -504,7 +557,11 @@ class UMLClassDiagram extends React.PureComponent<IProps, IState> {
                     )
                   }}
                 >
-                  <div>{'Aggregation'}</div>
+                  <img
+                    style={{ width: '100%', height: '100%' }}
+                    alt="img"
+                    src={Aggregation_Ico}
+                  />
                 </button>
                 <button
                   id="composition"
@@ -522,7 +579,11 @@ class UMLClassDiagram extends React.PureComponent<IProps, IState> {
                     )
                   }}
                 >
-                  <div>{'Composition'}</div>
+                  <img
+                    style={{ width: '100%', height: '100%' }}
+                    alt="img"
+                    src={Composition_Ico}
+                  />
                 </button>
                 <button
                   id="dependency"
@@ -540,7 +601,11 @@ class UMLClassDiagram extends React.PureComponent<IProps, IState> {
                     )
                   }}
                 >
-                  <div>{'Dependency'}</div>
+                  <img
+                    style={{ width: '100%', height: '100%' }}
+                    alt="img"
+                    src={Dependency_Ico}
+                  />
                 </button>
                 <button
                   id="inheritance"
@@ -558,7 +623,11 @@ class UMLClassDiagram extends React.PureComponent<IProps, IState> {
                     )
                   }}
                 >
-                  <div>{'Inheritance'}</div>
+                  <img
+                    style={{ width: '100%', height: '100%' }}
+                    alt="img"
+                    src={Extension_Ico}
+                  />
                 </button>
               </div>
             </div>
@@ -625,7 +694,7 @@ class UMLClassDiagram extends React.PureComponent<IProps, IState> {
           )}
           {userType === 'student' ? (
             <Typography variant="subtitle2" className={classes.points}>
-              {`Оцінка ${(points * 100) / 5}%`}
+              {`Оцінка ${((points * 100) / this.getMaxPoints()).toFixed(0)}%`}
             </Typography>
           ) : (
             <TextField

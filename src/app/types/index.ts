@@ -59,6 +59,6 @@ export interface ITask {
   description: string
   taskName: string
   type: ExerciseType
-  nodes: any[]
-  connectors: any[]
+  nodes: NodeModel[]
+  connectors: ConnectorModel[]
 }
