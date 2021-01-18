@@ -7,7 +7,6 @@
 import * as React from 'react'
 import {
   DiagramComponent,
-  // Diagram,
   ShapeAnnotationModel,
   NodeModel,
   ConnectorModel,
@@ -36,12 +35,12 @@ import { deepEqual } from 'app/services/utils'
 import { ReduxState } from 'app/types'
 import { AllAction } from 'app/store/action'
 import userActions from 'app/store/user/actions'
+import notify from 'app/services/notify'
 import Aggregation_Ico from '../../../../assets/Aggregation_Ico.png'
 import Association_Ico from '../../../../assets/Association_Ico.png'
 import Composition_Ico from '../../../../assets/Composition_Ico.png'
 import Dependency_Ico from '../../../../assets/Dependency_Ico.png'
 import Extension_Ico from '../../../../assets/Extension_Ico.png'
-// import Extension_Ico from '../../../../assets/Extension_Ico'
 
 import materialCss from './materialCss'
 import styles from './styles.module.scss'
@@ -230,18 +229,6 @@ const onUploadSuccess = (args: any) => {
   reader.onloadend = loadDiagram
 }
 
-// const compareConnection = (
-//   firstConnection: ConnectorModel,
-//   secondConnection: ConnectorModel,
-// ) => {
-//   return (
-//     firstConnection.type === secondConnection.type &&
-//     deepEqual(firstConnection.shape, secondConnection.shape)
-//   )
-// }
-
-// const compareWithEtalon = (): boolean => {}
-
 const mapStateToProps = (state: ReduxState) => ({
   userType: state.user.userData?.type,
   currentTask: state.user.currentTask,
@@ -295,26 +282,6 @@ class UMLClassDiagram extends React.PureComponent<IProps, IState> {
       : 1
   }
 
-  // compareNodes = (): number => {
-  //   const { nodes } = this.state
-  //   const { currentTask } = this.props
-  //   if (currentTask) {
-  //     let etalonNodes = [...currentTask.nodes]
-  //     let correctNodes = 0
-  //     nodes.forEach((userNode) => {
-  //       const foundNode = etalonNodes.find((taskNode) =>
-  //         deepEqual(taskNode.shape, userNode.shape),
-  //       )
-  //       if (foundNode) {
-  //         etalonNodes = etalonNodes.filter((node) => node.id !== foundNode.id)
-  //         correctNodes += 1
-  //       }
-  //     })
-  //     return correctNodes
-  //   }
-  //   return 0
-  // }
-
   compare = (type: 'nodes' | 'connectors'): number => {
     const { connectors, nodes } = this.state
     const { currentTask } = this.props
@@ -342,22 +309,8 @@ class UMLClassDiagram extends React.PureComponent<IProps, IState> {
     const { userType, actions } = this.props
     const { description, taskName, nodes, connectors } = this.state
     const diagram = getDiagram(diagramInstance?.saveDiagram())
-    // console.log('diagramInstance?.connectors', diagramInstance?.connectors)
-    // console.log(
-    //   'diagramInstance?.getConnectorObject',
-    //   diagramInstance?.getConnectorObject(connectors[0].id || ''),
-    // )
     if (userType === 'student') {
       const correctPoints = this.compare('nodes') + this.compare('connectors')
-      // console.log(
-      //   '🚀 ~ file: index.tsx ~ line 348 ~ UMLClassDiagram ~ this.compareNodes()',
-      //   this.compare('nodes'),
-      // )
-      // console.log(
-      //   '🚀 ~ file: index.tsx ~ line 350 ~ UMLClassDiagram ~ this.compareConnectors()',
-      //   this.compare('connectors'),
-      // )
-
       this.setState({ points: correctPoints })
     } else {
       // TODO pass correct object
@@ -370,6 +323,7 @@ class UMLClassDiagram extends React.PureComponent<IProps, IState> {
         nodes,
         connectors,
       })
+      notify('You add a task', 'success')
     }
   }
 
