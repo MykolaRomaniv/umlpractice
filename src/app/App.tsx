@@ -3,6 +3,7 @@ import { Switch, Route, BrowserRouter } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
+import PrivateRoute from 'app/components/PrivateRoute'
 import routes from 'app/constants/routes'
 import NavBar from 'app/components/NavBar'
 import SignUp from 'app/containers/Login/SignUp'
@@ -43,24 +44,28 @@ const App = (): JSX.Element => {
         <Route path="/" exact component={SignIn} />
         <Route path={`/${routes.signIn}`} exact component={SignIn} />
         <Route path={`/${routes.signUp}`} exact component={SignUp} />
-        <Route
+        <PrivateRoute
           path={`/${routes.exercisesCategories}`}
           exact
           component={ExercisesCategories}
         />
-        <Route
+        <PrivateRoute
           path={`/${routes.exercisesList}`}
           exact
           component={ExercisesList}
         />
-        <Route
+        <PrivateRoute
           path={`/${routes.exerciseCreation}`}
           exact
           component={ExerciseCreation}
         />
-        <Route path={`/${routes.bpmnExercise}`} exact component={Bpmn} />
-        <Route path={`/${routes.classExercise}`} exact component={Class} />
-        <Route path={`/${routes.flowExercise}`} exact component={Flow} />
+        <PrivateRoute path={`/${routes.bpmnExercise}`} exact component={Bpmn} />
+        <PrivateRoute
+          path={`/${routes.classExercise}`}
+          exact
+          component={Class}
+        />
+        <PrivateRoute path={`/${routes.flowExercise}`} exact component={Flow} />
       </Switch>
     </BrowserRouter>
   )
