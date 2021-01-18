@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-bitwise */
 /* eslint-disable no-plusplus */
@@ -16,7 +17,6 @@ import {
 } from '@syncfusion/ej2-react-diagrams'
 import { ToolbarComponent } from '@syncfusion/ej2-react-navigations'
 import { UploaderComponent } from '@syncfusion/ej2-react-inputs'
-import SampleBase from '../sample-base'
 
 let diagramInstance: DiagramComponent | null
 
@@ -111,122 +111,6 @@ function createNode(
   } as UmlClassifierShapeModel
   return node
 }
-// Create a connector.
-// function createConnector(
-//   id: string,
-//   sourceID: string,
-//   targetID: string,
-// ): ConnectorModel {
-//   const connector: ConnectorModel = {}
-//   connector.id = id
-//   connector.sourceID = sourceID
-//   connector.targetID = targetID
-//   return connector
-// }
-
-// Initializes the nodes for the diagram
-const nodes: NodeModel[] = [
-  {
-    id: 'Start',
-    height: 50,
-    width: 100,
-    offsetX: 250,
-    offsetY: 60,
-    shape: { type: 'Flow', shape: 'Terminator' },
-    annotations: [
-      {
-        content: 'Start',
-      },
-    ],
-    style: { fill: '#d0f0f1', strokeColor: '#797979' },
-  },
-  {
-    id: 'Alarm',
-    height: 50,
-    width: 100,
-    offsetX: 250,
-    offsetY: 160,
-    shape: { type: 'Flow', shape: 'Process' },
-    annotations: [
-      {
-        content: 'Alarm Rings',
-      },
-    ],
-    style: { fill: '#fbfdc5', strokeColor: '#797979' },
-  },
-  {
-    id: 'Ready',
-    height: 80,
-    width: 100,
-    offsetX: 250,
-    offsetY: 260,
-    shape: { type: 'Flow', shape: 'Decision' },
-    annotations: [
-      {
-        content: 'Ready to Get Up?',
-        margin: { top: 10, left: 10, right: 10, bottom: 10 },
-      },
-    ],
-    style: { fill: '#c5efaf', strokeColor: '#797979' },
-  },
-  {
-    id: 'Climb',
-    height: 50,
-    width: 100,
-    offsetX: 250,
-    offsetY: 370,
-    shape: { type: 'Flow', shape: 'Process' },
-    annotations: [
-      {
-        content: 'Climb Out of Bed',
-      },
-    ],
-    style: { fill: '#fbfdc5', strokeColor: '#797979' },
-  },
-  {
-    id: 'End',
-    height: 50,
-    width: 100,
-    offsetX: 250,
-    offsetY: 460,
-    shape: { type: 'Flow', shape: 'Terminator' },
-    annotations: [
-      {
-        content: 'End',
-      },
-    ],
-    style: { fill: '#d0f0f1', strokeColor: '#797979' },
-  },
-  {
-    id: 'Relay',
-    height: 50,
-    width: 100,
-    offsetX: 450,
-    offsetY: 160,
-    shape: { type: 'Flow', shape: 'Delay' },
-    annotations: [
-      {
-        content: 'Relay',
-      },
-    ],
-    style: { fill: '#f8eee5', strokeColor: '#797979' },
-  },
-  {
-    id: 'Hit',
-    height: 50,
-    width: 100,
-    offsetX: 450,
-    offsetY: 260,
-    shape: { type: 'Flow', shape: 'Process' },
-    annotations: [
-      {
-        content: 'Hit Snooze Button',
-        margin: { top: 10, left: 10, right: 10, bottom: 10 },
-      },
-    ],
-    style: { fill: '#fbfdc5', strokeColor: '#797979' },
-  },
-]
 
 const interval = [
   1,
@@ -254,30 +138,7 @@ const gridlines = {
   lineColor: '#e0e0e0',
   lineIntervals: interval,
 }
-// Initializes the connector for the diagram
-const connectors = [
-  {
-    id: 'connector1',
-    sourceID: 'Start',
-    targetID: 'Alarm',
-  },
-  { id: 'connector2', sourceID: 'Alarm', targetID: 'Ready' },
-  {
-    id: 'connector3',
-    sourceID: 'Ready',
-    targetID: 'Climb',
-    annotations: [{ content: 'Yes', style: { fill: 'white' } }],
-  },
-  { id: 'connector4', sourceID: 'Climb', targetID: 'End' },
-  {
-    id: 'connector5',
-    sourceID: 'Ready',
-    targetID: 'Hit',
-    annotations: [{ content: 'No', style: { fill: 'white' } }],
-  },
-  { id: 'connector6', sourceID: 'Hit', targetID: 'Relay' },
-  { id: 'connector7', sourceID: 'Relay', targetID: 'Alarm' },
-]
+
 // Initialize the flowshapes for the symbol palatte
 const flowshapes: NodeModel[] = [
   { id: 'Terminator', shape: { type: 'Flow', shape: 'Terminator' } },
@@ -379,8 +240,8 @@ const SAMPLE_CSS = `
       }
   }
 `
-export default class Serialization extends SampleBase {
-  render(): JSX.Element {
+export default class Serialization extends React.PureComponent {
+  render() {
     return (
       <div className="control-pane">
         <style>{SAMPLE_CSS}</style>
@@ -499,12 +360,10 @@ export default class Serialization extends SampleBase {
                 ref={(diagram) => (diagramInstance = diagram)}
                 width="100%"
                 height="645px"
-                nodes={nodes}
                 snapSettings={{
                   horizontalGridlines: gridlines,
                   verticalGridlines: gridlines,
                 }}
-                connectors={connectors}
                 getConnectorDefaults={(args: any, _diagram: any) => {
                   args.targetDecorator.height = 5
                   args.targetDecorator.width = 5

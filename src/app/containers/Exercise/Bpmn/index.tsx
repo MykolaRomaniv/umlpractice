@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
@@ -19,7 +20,6 @@ import {
   NodeModel,
   ConnectorModel,
 } from '@syncfusion/ej2-react-diagrams'
-import SampleBase from '../sample-base'
 
 let diagramInstance: DiagramComponent | null
 let diagram: DiagramComponent | null
@@ -1140,13 +1140,13 @@ const contextMenu = {
 //     padding-left: 0px;
 // }`
 
-export default class BpmnEditor extends SampleBase {
+class BpmnEditor extends React.PureComponent {
   // eslint-disable-next-line class-methods-use-this
   rendereComplete(): void {
     diagramInstance?.fitToPage()
   }
 
-  render(): JSX.Element {
+  render() {
     return (
       <div className="control-pane">
         <div className="control-section">
@@ -1259,3 +1259,5 @@ export default class BpmnEditor extends SampleBase {
     )
   }
 }
+
+export default BpmnEditor
