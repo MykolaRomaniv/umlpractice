@@ -306,12 +306,15 @@ class UMLClassDiagram extends React.PureComponent<IProps, IState> {
   }
 
   onSendResult = () => {
-    const { userType, actions } = this.props
+    const { userType, actions, currentTask } = this.props
     const { description, taskName, nodes, connectors } = this.state
     const diagram = getDiagram(diagramInstance?.saveDiagram())
     if (userType === 'student') {
       const correctPoints = this.compare('nodes') + this.compare('connectors')
       this.setState({ points: correctPoints })
+      if (currentTask) {
+        actions.moveToDone(currentTask)
+      }
     } else {
       // TODO pass correct object
       actions.createTask({

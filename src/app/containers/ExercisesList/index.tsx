@@ -19,6 +19,7 @@ import useStyles from './styles'
 const mapStateToProps = (state: ReduxState) => ({
   userType: state.user.userData?.type,
   tasks: state.user.tasks,
+  doneTasks: state.user.userData?.doneTasks,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<AllAction>) => ({
@@ -33,6 +34,7 @@ const ExercisesList = ({
   userType,
   tasks,
   actions: { getTasks, selectTask },
+  doneTasks,
 }: IProps): JSX.Element => {
   const classes = useStyles()
   const categoryType = useQuery().get('type')
@@ -71,9 +73,12 @@ const ExercisesList = ({
             {'Зроблені\r'}
           </Typography>
           <List component="nav" aria-label="secondary mailbox folders">
-            <ListItem button>
-              <ListItemText primary="Завдання 1" />
-            </ListItem>
+            {doneTasks &&
+              doneTasks.map((task) => (
+                <ListItem button key={task.taskName}>
+                  <ListItemText primary={task.taskName} />
+                </ListItem>
+              ))}
           </List>
         </>
       ) : (
