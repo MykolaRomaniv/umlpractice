@@ -7,7 +7,7 @@ module.exports = {
   semi: false,
   useTabs: false,
   arrowParens: 'always',
-  endOfLine: 'auto',
+  endOfLine: 'lf',
   htmlWhitespaceSensitivity: 'css',
   printWidth: 80,
   proseWrap: 'preserve',
